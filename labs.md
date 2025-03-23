@@ -13,7 +13,7 @@ ollama serve &
 
 **Lab 1 - Creating a simple agent**
 
-**Purpose: In this lab, we’ll learn about the basics of agents.**
+**Purpose: In this lab, we’ll learn about the basics of agents and see how tools are called.**
 
 1. In our repository, we have a set of Python programs that we'll be building out to work with concepts in the labs. These are mostly in the *agents* subdirectory. Go to the *TERMINAL* tab in the bottom part of your codespace and change into that directory.
 ```
