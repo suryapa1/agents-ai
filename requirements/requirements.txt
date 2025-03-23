@@ -1,7 +1,7 @@
 ollama>=0.2.1
 langchain_community
 duckduckgo-search
-langchain-ollama
+langchain
 langgraph
 IPython
 autogen
