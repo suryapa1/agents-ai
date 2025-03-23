@@ -15,3 +15,5 @@ sentence-transformers
 fastembed
 ddg-search
 numexpr
+requests
+openai
