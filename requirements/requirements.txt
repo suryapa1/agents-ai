@@ -17,3 +17,4 @@ ddg-search
 numexpr
 requests
 openai
+langchain_ollama
