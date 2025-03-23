@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 1.1 - 03/23/25
+## Revision 1.2 - 03/23/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -58,6 +58,57 @@ python agent1.py
 **[END OF LAB]**
 </p>
 </br></br>
+
+**Lab 2 - Understanding CoT prompting and ReAct Agents**
+
+**Purpose: In this lab, we’ll see how Chain of Thought prompting works with LLMs and how we can have ReAct agents reason and act.**
+
+1. To explore CoT prompting, let's try out a simple prompt with our current *llama3.2* model. First, we need to tell Ollama to *run* the model so we can interact directly with it. In the terminal, run the command below.
+
+```
+ollama run llama3.2
+```
+
+2. At the prompt, let's enter a simple query with out CoT. Try this one (enter at the prompt and hit Enter). After doing that you should see something like the screenshot below.
+
+```
+Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm.
+```
+
+![Non-CoT prompt](./images/aa17.png?raw=true "Non-CoT prompt") 
+
+3. Now, let's take a look at what the output might look like **with** a CoT prompt. Enter the prompt below and hit Enter. After doing that you should see something like the screenshot below.
+
+```
+Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm step by step. Explain your reasoning.
+```
+
+![CoT prompt](./images/aa18.png?raw=true "CoT prompt") 
+
+4. Moving on, let's see how a ReAct (Thought->Action->Observation) agent "reasons". In the *agents* directory, there is a file named *lab2.py*. You can open it via [**agents/agent2.py**](./agents/agent2.py) or with the command below. Open it up and take a look at the contents. It's a simple ReAct agent setup with LangChain.
+
+```
+code agent2.py
+```
+
+5. As you can se in the last line, it has a query that will force it to search for multiple data points (coldest temp, current temp) and then do a calculation with them. It has two tools it can use - *DuckDuckGo-search (ddg-search)* and an *llm-math* one. Let's see if it can reason through the steps. Hit *Ctrl-D* to stop the interactive prompt for the model. Then run the *agent2.py* program and watch the output.
+
+```
+python agent2.py
+```
+
+6. What you will probably see after a minute or so is the agent getting "stuck" in a loop repeatedly trying to find the requested temperatures. As it turns out, our small *llama3.2* model is not powerful enough to handle this - at least in an optimal way. Go ahead and stop the run with a *Ctrl-C*.
+
+![Stopping loop](./images/aa19.png?raw=true "Stopping loop") 
+
+7. Let's bring in a more powerful LLM to help here. Run the commands below to remove the *llama3.2* model and get the *Qwen2.5:7b* model to use. This is a substantially larger model, so it may take a few minutes to load. While you wait for it to be pulled, you can do step 8. Change the line in *agent2.py* that has "*llama3.2*" to have "*qwen2.5:7b*" instead. Save your changes afterwards. (Ctrl/Cmd+S)
+
+```
+ollama rm llama3.2
+ollama pull qwen2.5:7b
+```
+
+8. Since we're going to be using a different model, we need to update *agent2.py*.
 
 **Lab 4 - Router Workflow with LangGraph Agent**
 
