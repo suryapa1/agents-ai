@@ -53,7 +53,7 @@ python agent1.py
 
 9. Notice that the location *London* supplied in the user query was converted into an appropriate latitude and longitude for the tool call by the LLM. Then the output of the tool run was converted to a user-friendly weather report as the final answer.
 
-10. (Optional) If you get done early and want to play around, you can try changing the user query.
+10. (Optional) If you get done early and want to play around, you can try changing the user query. If you don't seem to get a response after the function is called, it may be due to the API limiting. Ctrl-C to cancel the run and try again.
 <p align="center">
 **[END OF LAB]**
 </p>
