@@ -4,3 +4,14 @@ duckduckgo-search
 langchain-ollama
 langgraph
 IPython
+autogen
+ag2[openai]
+crewai
+datasets
+autogen_ext
+autogen-agentchat
+chromadb
+sentence-transformers
+fastembed
+ddg-search
+numexpr
