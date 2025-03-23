@@ -16,20 +16,15 @@ llm = ChatOllama(
 
 # Define the schema for structured output to use as routing logic
 
-
 # Define the state for the graph
 
-
 # Define nodes for each task
-
     
     # Parse the result to determine the task
-
 
 # Define conditional edge function for routing
 
 # Add edges
-
 
 # Compile the workflow
 chain = workflow.compile()
@@ -57,3 +52,4 @@ for message in inputs["messages"]:
     
     print(f"Task: {result['task']}")
     print(f"Response: {response}\n")
+
