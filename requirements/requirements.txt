@@ -13,7 +13,6 @@ autogen-agentchat
 chromadb
 sentence-transformers
 fastembed
-ddg-search
 numexpr
 requests
 openai
