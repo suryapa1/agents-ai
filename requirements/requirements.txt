@@ -18,3 +18,4 @@ numexpr
 requests
 openai
 langchain_ollama
+langchain_community
