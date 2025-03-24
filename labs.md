@@ -113,6 +113,65 @@ python agent2.py
 ```
 ![Second run](./images/aa22.png?raw=true "Second run") 
 
+1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
+```
+code -d ../extra/lab5-code.txt agent5.py
+```
+
+![Merge complete](./images/aa8.png?raw=true "Merge complete") 
+
+2. In the *agent5.py* template, we have the imports and llm setup at the top filled in, along with a simulated function to book a flight. Scroll to the bottom. At the bottom is the input and code to kick off the "*crew*". So, we need to fill in the different tasks and setup the crew.
+
+![Code to run agent](./images/aa9.png?raw=true "Code to run agent") 
+
+3. Scroll back to the top, review each change and then merge each one in. When done, the files should show no differences. Click on the "X" in the tab at the top to save your changes to *agent5.py*.
+
+![Merge complete](./images/aa10.png?raw=true "Merge complete") 
+
+4. Now you can run the agent and see the larger workflow being handled. There will be quite a bit of output so this may take a while to run. **NOTE: Even though the agent may prompt for human input to select a flight, none is needed. We're not adding that in and using fake info to keep things simple and quick.**
+
+```
+python lab5.py
+```
+
+![Execution](./images/aa11.png?raw=true "Execution") 
+
+5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
+
+```
+booking_agent = Agent(
+    role="Airline Booking Assistant",
+    goal="Help users book flights efficiently.",
+    backstory="You are an expert airline booking assistant, providing the best booking options with clear information.",
+    verbose=True,
+    llm=ollama_llm,
+)
+
+# New agent for travel planning tasks
+travel_agent = Agent(
+    role="Travel Assistant",
+    goal="Assist in planning and organizing travel details.",
+    backstory="You are skilled at planning and organizing travel itineraries efficiently.",
+    verbose=True,
+    llm=ollama_llm,
+)
+
+# New agent for customer service tasks
+customer_service_agent = Agent(
+    role="Customer Service Representative",
+    goal="Provide excellent customer service by handling user requests and presenting options.",
+    backstory="You are skilled at providing customer support and ensuring user satisfaction.",
+    verbose=True,
+    llm=ollama_llm,
+)
+```
+
+6. Next, change each *task definitions* to reflect which agent should own it. The mapping is:
+
+extract_travel_info_task  customer_service_agent
+TO-DO: pick up here
+
+
 **Lab 4 - Router Workflow with LangGraph Agent**
 
 **Purpose: In this lab, we’ll see how to implement an agent in LangGraph that demos the router workflow.**
