@@ -25,15 +25,11 @@ def book_flight(flight_number: str):
 
 # Create a task to find suitable flights
 
-
 # Create a task to present flight options 
-
 
 # Create a task to book the flight
 
-
 # Create the Crew
-
 
 # Run the process with user input
 user_input = "I need a flight to New York on August 11, 2025."
