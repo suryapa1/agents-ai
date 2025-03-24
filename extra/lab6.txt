@@ -38,7 +38,7 @@ conversational_memory = ConversationBufferWindowMemory(
     return_messages=True #Must return the messages in the response.
 )
 
-llm = Ollama(model="llama3.2",temperature=0.7)
+llm = Ollama(model="qwen2.5:7b",temperature=0.7)
 
 qa = RetrievalQA.from_chain_type(
     llm=llm,
