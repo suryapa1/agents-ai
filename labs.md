@@ -113,63 +113,11 @@ python agent2.py
 ```
 ![Second run](./images/aa22.png?raw=true "Second run") 
 
-1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
-```
-code -d ../extra/lab5-code.txt agent5.py
-```
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
 
-![Merge complete](./images/aa8.png?raw=true "Merge complete") 
-
-2. In the *agent5.py* template, we have the imports and llm setup at the top filled in, along with a simulated function to book a flight. Scroll to the bottom. At the bottom is the input and code to kick off the "*crew*". So, we need to fill in the different tasks and setup the crew.
-
-![Code to run agent](./images/aa9.png?raw=true "Code to run agent") 
-
-3. Scroll back to the top, review each change and then merge each one in. When done, the files should show no differences. Click on the "X" in the tab at the top to save your changes to *agent5.py*.
-
-![Merge complete](./images/aa10.png?raw=true "Merge complete") 
-
-4. Now you can run the agent and see the larger workflow being handled. There will be quite a bit of output so this may take a while to run. **NOTE: Even though the agent may prompt for human input to select a flight, none is needed. We're not adding that in and using fake info to keep things simple and quick.**
-
-```
-python lab5.py
-```
-
-![Execution](./images/aa11.png?raw=true "Execution") 
-
-5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
-
-```
-booking_agent = Agent(
-    role="Airline Booking Assistant",
-    goal="Help users book flights efficiently.",
-    backstory="You are an expert airline booking assistant, providing the best booking options with clear information.",
-    verbose=True,
-    llm=ollama_llm,
-)
-
-# New agent for travel planning tasks
-travel_agent = Agent(
-    role="Travel Assistant",
-    goal="Assist in planning and organizing travel details.",
-    backstory="You are skilled at planning and organizing travel itineraries efficiently.",
-    verbose=True,
-    llm=ollama_llm,
-)
-
-# New agent for customer service tasks
-customer_service_agent = Agent(
-    role="Customer Service Representative",
-    goal="Provide excellent customer service by handling user requests and presenting options.",
-    backstory="You are skilled at providing customer support and ensuring user satisfaction.",
-    verbose=True,
-    llm=ollama_llm,
-)
-```
-
-6. Next, change each *task definitions* to reflect which agent should own it. The mapping is:
-
-extract_travel_info_task  customer_service_agent
-TO-DO: pick up here
 
 
 **Lab 4 - Router Workflow with LangGraph Agent**
@@ -232,6 +180,102 @@ http-server
 
 10. When you're done looking at this, you can close the web page and then go back to the terminal and stop the *http-server* process with *Ctrl-C*.
     
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
+
+**Lab 5 - Working with multiple agents**
+
+**Purpose: In this lab, we’ll see how to add an agent to a workflow using CrewAI.**
+
+1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
+```
+code -d ../extra/lab5-code.txt agent5.py
+```
+
+![Diffs](./images/aa23.png?raw=true "Diffs") 
+
+2. In the *agent5.py* template, we have the imports and llm setup at the top filled in, along with a simulated function to book a flight. Scroll to the bottom. At the bottom is the input and code to kick off the "*crew*". So, we need to fill in the different tasks and setup the crew.
+
+3. Scroll back to the top, review each change and then merge each one in. When done, the files should show no differences. Click on the "X" in the tab at the top to save your changes to *agent5.py*.
+
+![Merge complete](./images/aa24.png?raw=true "Merge complete") 
+
+4. Now you can run the agent and see the larger workflow being handled. There will be quite a bit of output so this may take a while to run. **NOTE: Even though the agent may prompt for human input to select a flight, none is needed. We're not adding that in and using fake info to keep things simple and quick.**
+
+```
+python agent5.py
+```
+
+![Execution](./images/aa11.png?raw=true "Execution") 
+
+5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
+
+*NOTE*: First screenshot below shows highlighted text to be replaced and second shows replaced text.
+
+```
+# Defines the AI agents
+
+booking_agent = Agent(
+    role="Airline Booking Assistant",
+    goal="Help users book flights efficiently.",
+    backstory="You are an expert airline booking assistant, providing the best booking options with clear information.",
+    verbose=True,
+    llm=ollama_llm,
+)
+
+# New agent for travel planning tasks
+travel_agent = Agent(
+    role="Travel Assistant",
+    goal="Assist in planning and organizing travel details.",
+    backstory="You are skilled at planning and organizing travel itineraries efficiently.",
+    verbose=True,
+    llm=ollama_llm,
+)
+
+# New agent for customer service tasks
+customer_service_agent = Agent(
+    role="Customer Service Representative",
+    goal="Provide excellent customer service by handling user requests and presenting options.",
+    backstory="You are skilled at providing customer support and ensuring user satisfaction.",
+    verbose=True,
+    llm=ollama_llm,
+)
+```
+![Text to replace](./images/aa26.png?raw=true "Text to replace") 
+
+![Replaced text](./images/aa27.png?raw=true "Replaced text")
+
+6. Next, we'll change each *task definition* to reflect which agent should own it. The places to make the change are in the task definitions in the lines that start with "*agent=*". Just edit each one as needed per the mapping in the table below.
+
+| **Task** | *Agent* | 
+| :--------- | :-------- | 
+| **extract_travel_info_task** |  *customer_service_agent*  |        
+| **find_flights_task** |  *travel_agent*  |  
+| **present_flights_task** |  *customer_service_agent*  |  
+| **book_flight_task** | *booking_agent* (ok as-is) |  
+         
+![Replaced text](./images/aa28.png?raw=true "Replaced text")
+
+7. Finally, we need to add the new agents to our crew. Edit the "*agents=[*" line in the block under the comment "*# Create the crew*". In that line, add *customer_service_agent* and *travel_agent*. The full line is below. The screenshot shows the changes made.
+
+```
+agents=[booking_agent, customer_service_agent, travel_agent],
+```
+
+![Replaced text](./images/aa29.png?raw=true "Replaced text")
+
+8. Now you can save your changes and then run the program again.
+
+```
+python agent5.py
+```
+
+9. This time when the code runs, you should see the different agents being used in the processing.
+
+![Run with new agents](./images/aa30.png?raw=true "Run with new agents")
+
 <p align="center">
 **[END OF LAB]**
 </p>
@@ -370,6 +414,8 @@ python lab6.py
 ```
 I have a patient that may have Botulism. How can I confirm the diagnosis?
 ```
+
+![final answer](./images/aa25.png?raw=true "final answer") 
 
 <p align="center">
 **[END OF LAB]**
