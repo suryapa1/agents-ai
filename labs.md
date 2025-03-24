@@ -101,14 +101,17 @@ python agent2.py
 
 ![Stopping loop](./images/aa19.png?raw=true "Stopping loop") 
 
-7. Let's bring in a more powerful LLM to help here. Run the commands below to remove the *llama3.2* model and get the *Qwen2.5:7b* model to use. This is a substantially larger model, so it may take a few minutes to load. While you wait for it to be pulled, you can do step 8. Change the line in *agent2.py* that has "*llama3.2*" to have "*qwen2.5:7b*" instead. Save your changes afterwards. (Ctrl/Cmd+S)
+
+7. We also have the more substantial *qwen2.5:7b* model running. Let's use it. Since we're going to be using a different model, we need to update *agent2.py* to use the new model. On line 10, change *llama3.5* to *qwen2.5:7b*.
+
+![Changing model](./images/aa21.png?raw=true "Changing model") 
+
+8. Now you can run the agent again. This will take a long time to complete, so you can **just leave it running while we proceed**. But what you should eventually see is it displaying the *Thought->Action->Observation* process and eventually reaching a final answer as expected.
 
 ```
-ollama rm llama3.2
-ollama pull qwen2.5:7b
+python agent2.py
 ```
-
-8. Since we're going to be using a different model, we need to update *agent2.py*.
+![Second run](./images/aa22.png?raw=true "Second run") 
 
 **Lab 4 - Router Workflow with LangGraph Agent**
 
