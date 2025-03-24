@@ -208,7 +208,7 @@ code -d ../extra/lab5-code.txt agent5.py
 python agent5.py
 ```
 
-![Execution](./images/aa11.png?raw=true "Execution") 
+![Execution](./images/aa31.png?raw=true "Execution") 
 
 5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
 
