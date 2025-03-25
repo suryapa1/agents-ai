@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 1.3 - 03/24/25
+## Revision 1.4 - 03/25/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -143,13 +143,42 @@ python reflex.py
 
 ![reflex agent run](./images/aa34.png?raw=true "reflex agent run")
 
-5. We'll follow a similar approach for the remaining agent types. The next one is *model-reflex.py*, for the type of agent that executes an action based on an internal model. Open it up and review the code. The main difference here is there is an extra input for *increasing* or *decreasing*. Based off of the combined *model* of the inventory amount and whether demand (sales trend) is increasing or decreasing, it will decide whether to order 50 or 100 units. Once you've reviewed the code, you can run it in the usual way. Again, you'll want to put in a current value < 50 to cause the *ordering* to happen.
+5. We'll follow a similar approach for the remaining agent types. The next one is *model-reflex.py*, for the type of agent that executes an action based on an internal model. Open it up and review the code.
+   
+6. The main difference here is there is an extra input for *increasing* or *decreasing*. Based off of the combined *model* of the inventory amount and whether demand (sales trend) is increasing or decreasing, it will decide whether to order 50 or 100 units. Once you've reviewed the code, you can run it in the usual way. Again, you'll want to put in a current value < 50 to cause the *ordering* to happen.
 
 ```
 python model-reflex.py
 ```
 
 ![model-reflex agent run](./images/aa35.png?raw=true "model-reflex agent run")
+
+7. Next is the one based off of a goal. Open and review. In this one, if the inventory is lower than the goal (lower bound) you input, the agent orders more. If it is greater, it creates a sales ad for a discount to get rid of excess.
+
+```
+python goal.py
+```
+
+![goal agent run](./images/aa36.png?raw=true "goal agent run")
+
+8. The *utility* one is a bit more complicated. But, essentially it attempts to minimize for total cost, by taking into account cost for storing inventory vs the cost of not having enough inventory to meet demand. Based on this utility function, the agent will decide whether to order more inventory or not.
+
+```
+python utility.py
+```
+
+![goal agent run](./images/aa37.png?raw=true "goal agent run")
+
+9. Finally, we have the *learning* demo. It has logic to adjust the order quantity based on recent sales trends and order appropriately. You can run this one and keep changing the sales trends to see different scenarios.
+
+```
+python learning.py
+```
+
+![learning agent run](./images/aa38.png?raw=true "learning agent run")
+
+10. In real-world scenarios, there would likely be substantial machine-learning algorithms in place of the simple logic we show here, but the basic ideas translate.
+
 
 **Lab 4 - Router Workflow with LangGraph Agent**
 
