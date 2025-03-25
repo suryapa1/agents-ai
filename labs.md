@@ -118,7 +118,38 @@ python agent2.py
 </p>
 </br></br>
 
+**Lab 3 - Types of Agents**
 
+**Purpose: In this lab, we’ll see and execute some different representations of agent types written with AutoGen.**
+
+1. In the *agents* directory, we have 5 python files for understanding more about how the different agent types work. These files are *goal.py*, *learning.py*, *model-reflex.py*, *reflex.py*, and *utility.py*. Each of these files is a very simple implementation corresponding to one of the agent types. The scenario is managing inventory and determining whether to order more or not. We're going to look at each agent type in turn and try them out to see how the different agent types function.
+
+**Note:** *In production use, there would be more interactions after the logic, more interactions with the LLM, tool calls, etc., but we're keeping it simple and simulating some things for now to focus on understanding.*)
+
+2. Let's start with the *simple reflex* agent. Open the file by clicking [**agents/reflex.py**](./agents/reflex.py) or via the command below.
+```
+code reflex.py
+```
+
+3. At the bottom of the file, we have the starting code that asks for an input that is the current inventory level and then invokes the actual agent (A in screenshot). Then, near the top, we have the actual AutoGen agent definition which includes logic to decide whether to call the LLM or not. Since this is a *reflex* agent, the logic is "if inventory is low (< 50), then order more" (B in screenshot). Ordering is handed off to the LLM to handle (C) where it pretends to have placed an order according to the prompt passed in in the *message* section.
+
+![reflex agent logic](./images/aa33.png?raw=true "reflex agent logic")
+
+4. Now, go ahead and run the agent and enter a value < 50 to force an "*order*". Note that the output is simulating an order with made-up information.
+
+```
+python reflex.py
+```
+
+![reflex agent run](./images/aa34.png?raw=true "reflex agent run")
+
+5. We'll follow a similar approach for the remaining agent types. The next one is *model-reflex.py*, for the type of agent that executes an action based on an internal model. Open it up and review the code. The main difference here is there is an extra input for *increasing* or *decreasing*. Based off of the combined *model* of the inventory amount and whether demand (sales trend) is increasing or decreasing, it will decide whether to order 50 or 100 units. Once you've reviewed the code, you can run it in the usual way. Again, you'll want to put in a current value < 50 to cause the *ordering* to happen.
+
+```
+python model-reflex.py
+```
+
+![model-reflex agent run](./images/aa35.png?raw=true "model-reflex agent run")
 
 **Lab 4 - Router Workflow with LangGraph Agent**
 
