@@ -4,11 +4,6 @@
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
-Make sure to have started Ollama if you haven't.
-```
-ollama serve &
-```
-</br></br>
 **NOTE: To copy and paste in the codespace, you may need to use keyboard commands - CTRL-C and CTRL-V. Chrome may work best for this.**
 
 **Lab 1 - Creating a simple agent**
