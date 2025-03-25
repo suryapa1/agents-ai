@@ -22,10 +22,11 @@
                 "python.defaultInterpreterPath": ".venv/bin/python",
                 "github.copilot.editor.enable": false, // Disables Copilot globally
                 "github.copilot.editor.enableAutoCompletions": false, // Disables inline suggestions
-                "github.copilot.chat.enabled": false // Disables Copilot Chat
-                // "chat.commandCenter.enabled": false // Hides the Copilot Chat button in the title bar
+                "github.copilot.chat.enabled": false, // Disables Copilot Chat
+                "chat.commandCenter.enabled": false // Hides the Copilot Chat button in the title bar
             }
         }
     },
-    "postCreateCommand": "bash -i scripts/pysetup.sh py_env"
+    "postCreateCommand": "bash -i scripts/startOllama.sh && bash -i scripts/pysetup.sh py_env",
+    "postStartCommand" : "nohup bash -c 'ollama serve &'"
 }
