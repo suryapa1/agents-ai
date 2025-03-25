@@ -152,7 +152,7 @@ python model-reflex.py
 
 ![model-reflex agent run](./images/aa35.png?raw=true "model-reflex agent run")
 
-7. Next is the one based off of a goal. Open and review. In this one, if the inventory is lower than the goal (lower bound) you input, the agent orders more. If it is greater, it creates a sales ad for a discount to get rid of excess.
+7. Next is the one based off of a goal. Open and review. In this one, if the inventory amount you input is lower than the lower bound you input, the agent orders more. If the inventory amount is between the lower and upper bounds, no action is required. If the inventory amount is greater than the upper bound, it creates a sales ad for a discount to get rid of excess.
 
 ```
 python goal.py
@@ -160,7 +160,7 @@ python goal.py
 
 ![goal agent run](./images/aa36.png?raw=true "goal agent run")
 
-8. The *utility* one is a bit more complicated. But, essentially it attempts to minimize for total cost, by taking into account cost for storing inventory vs the cost of not having enough inventory to meet demand. Based on this utility function, the agent will decide whether to order more inventory or not.
+8. The *utility* one is a bit more complicated. But, essentially it attempts to minimize for total cost, by taking into account cost for storing inventory (holding cost) vs the cost of not having enough inventory to meet demand (stockout cost). Based on this utility function, the agent will decide whether to order more inventory or not.
 
 ```
 python utility.py
