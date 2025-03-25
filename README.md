@@ -14,7 +14,9 @@ Click here ➡️  [![Open in GitHub Codespaces](https://github.com/codespaces/b
 
 This will run for a long time (10 or more minutes) while it gets everything ready.
 
-After the initial startup, it will run a script to setup the python environment and install needed python pieces. This will take several more minutes to run. It will look like this while this is running.
+After the initial startup, it will run a script to setup the python environment, install needed python pieces, install Ollama, and then download the models we will use. This will take several more minutes to run. It will look like this while this is running.
+
+![Ready to use](./images/aa32.png?raw=true "Ready to use")
 
 The codespace is ready to use when you see a prompt like the one shown below in its terminal.
 
