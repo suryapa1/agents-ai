@@ -168,7 +168,7 @@ python utility.py
 
 ![goal agent run](./images/aa37.png?raw=true "goal agent run")
 
-9. Finally, we have the *learning* demo. It has logic to adjust the order quantity based on recent sales trends and order appropriately. You can run this one and keep changing the sales trends to see different scenarios.
+9. Finally, we have the *learning* demo. It has logic to adjust the order quantity based on current inventory and recent sales trends. You input those values and it stores the information to *learn* from so it can be considered for the next run. This one repeats in a loop until you type "exit".
 
 ```
 python learning.py
@@ -176,7 +176,10 @@ python learning.py
 
 ![learning agent run](./images/aa38.png?raw=true "learning agent run")
 
-10. In real-world scenarios, there would likely be substantial machine-learning algorithms in place of the simple logic we show here, but the basic ideas translate.
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
 
 
 **Lab 4 - Router Workflow with LangGraph Agent**
