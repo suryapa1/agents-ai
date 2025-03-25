@@ -117,9 +117,13 @@ python agent2.py
 
 **Purpose: In this lab, we’ll see and execute some different representations of agent types written with AutoGen.**
 
-1. In the *agents* directory, we have 5 python files for understanding more about how the different agent types work. These files are *goal.py*, *learning.py*, *model-reflex.py*, *reflex.py*, and *utility.py*. Each of these files is a very simple implementation corresponding to one of the agent types. The scenario is managing inventory and determining whether to order more or not. We're going to look at each agent type in turn and try them out to see how the different agent types function.
+1. In the *agents* directory, we have 5 python files for understanding more about how the different agent types work. These files are *goal.py*, *learning.py*, *model-reflex.py*, *reflex.py*, and *utility.py*.
 
-**Note:** *In production use, there would be more interactions after the logic, more interactions with the LLM, tool calls, etc., but we're keeping it simple and simulating some things for now to focus on understanding.*)
+   Each of these files is a very simple implementation corresponding to one of the agent types. The scenario they all deal with is managing inventory and determining whether to order more or not. 
+
+   In this lab, we're going to look at each agent type in turn and try them out to see how the different agent types function.
+
+(**Note:** *In production use, there would be more interactions after the logic, more interactions with the LLM, tool calls, etc., but we're keeping it simple and simulating some things for now to focus on understanding.*)
 
 2. Let's start with the *simple reflex* agent. Open the file by clicking [**agents/reflex.py**](./agents/reflex.py) or via the command below.
 ```
