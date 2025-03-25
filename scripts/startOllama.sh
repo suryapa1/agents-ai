@@ -11,4 +11,6 @@ ollama pull llama3.2
 ollama pull qwen2.5:7b
 ollama list
 
-echo Ollama is ready.
+# kill ollama process here since it runs in a separate shell
+# startup command will restart it
+pkill -9 "ollama"
