@@ -11,7 +11,7 @@ async def simple_reflex_agent(inventory_level):
         try:
             message = {
                 "role": "user",
-                "content": "Pretend to have ordered 100 widgets automatically from the supplier."
+                "content": "Pretend to have ordered 100 widgets electronically from the supplier. Make up details for any placeholders"
             }
             response = await client.chat(
                 model="llama3.2",
