@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 1.5 - 03/31/25
+## Revision 1.6 - 03/31/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -64,7 +64,7 @@ python agent1.py
 ollama run llama3.2
 ```
 
-2. At the prompt, let's enter a simple query with out CoT. Try this one (enter at the prompt and hit Enter). After doing that you should see something like the screenshot below.
+2. At the prompt, let's enter a simple query without CoT. Try this one (enter at the prompt and hit Enter). After doing that you should see something like the screenshot below.
 
 ```
 Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm.
@@ -72,7 +72,7 @@ Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm.
 
 ![Non-CoT prompt](./images/aa17.png?raw=true "Non-CoT prompt") 
 
-3. Now, let's take a look at what the output might look like **with** a CoT prompt. Enter the prompt below and hit Enter. After doing that you should see something like the screenshot below.
+3. Now, let's take a look at what the output might look like **with** a CoT prompt. Enter the prompt below and hit Enter. After doing that you should see something like the screenshot below. 
 
 ```
 Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm step by step. Explain your reasoning.
@@ -80,13 +80,13 @@ Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm step
 
 ![CoT prompt](./images/aa18.png?raw=true "CoT prompt") 
 
-4. Moving on, let's see how a ReAct (Thought->Action->Observation) agent "reasons". In the *agents* directory, there is a file named *lab2.py*. You can open it via [**agents/agent2.py**](./agents/agent2.py) or with the command below. Open it up and take a look at the contents. It's a simple ReAct agent setup with LangChain.
+4. You can end the interactive mode by using Ctrl+D. Moving on, let's see how a ReAct (Thought->Action->Observation) agent "reasons". In the *agents* directory, there is a file named *agent2.py*. You can open it via [**agents/agent2.py**](./agents/agent2.py) or with the command below. Open it up and take a look at the contents. It's a simple ReAct agent setup with LangChain.
 
 ```
 code agent2.py
 ```
 
-5. As you can se in the last line, it has a query that will force it to search for multiple data points (coldest temp, current temp) and then do a calculation with them. It has two tools it can use - *DuckDuckGo-search (ddg-search)* and an *llm-math* one. Let's see if it can reason through the steps. Hit *Ctrl-D* to stop the interactive prompt for the model. Then run the *agent2.py* program and watch the output.
+5. As you can see in the last line, it has a query that will force it to search for multiple data points (coldest temp, current temp) and then do a calculation with them. It has two tools it can use - *DuckDuckGo-search (ddg-search)* and an *llm-math* one. Let's see if it can reason through the steps.  Run the *agent2.py* program and watch the output.
 
 ```
 python agent2.py
@@ -97,7 +97,7 @@ python agent2.py
 ![Stopping loop](./images/aa19.png?raw=true "Stopping loop") 
 
 
-7. We also have the more substantial *qwen2.5:7b* model running. Let's use it. Since we're going to be using a different model, we need to update *agent2.py* to use the new model. On line 10, change *llama3.5* to *qwen2.5:7b*.
+7. We also have the more substantial *qwen2.5:7b* model running. Let's use it. Since we're going to be using a different model, we need to update *agent2.py* to use the new model. On line 10, change *llama3.5* to *qwen2.5:7b* and save your changes (Ctrl/Cmd+S).
 
 ![Changing model](./images/aa21.png?raw=true "Changing model") 
 
