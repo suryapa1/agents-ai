@@ -348,7 +348,7 @@ python agent5.py
 </p>
 </br></br>
  
-**Lab 6 - Implementing Agentic RAG**
+**(Bonus) Lab 6 - Implementing Agentic RAG**
 
 **Purpose: In this lab, we’ll see how to setup an agent using RAG with a tool.**
 
