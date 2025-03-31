@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 1.6 - 03/31/25
+## Revision 1.8 - 03/31/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -144,7 +144,7 @@ python reflex.py
 
 5. We'll follow a similar approach for the remaining agent types. The next one is *model-reflex.py*, for the type of agent that executes an action based on an internal model. Open it up and review the code.
    
-6. The main difference here is there is an extra input for *increasing* or *decreasing*. Based off of the combined *model* of the inventory amount and whether demand (sales trend) is increasing or decreasing, it will decide whether to order 50 or 100 units. Once you've reviewed the code, you can run it in the usual way. Again, you'll want to put in a current value < 50 to cause the *ordering* to happen.
+6. The main difference here is there is an extra input for *increasing* or *decreasing*. Based off of the combined *model* of the inventory amount and whether demand (sales trend) is increasing or decreasing, it will decide whether to order 50 or 100 units. (The combination simulates a "model" for basing action on.) Once you've reviewed the code, you can run it in the usual way. Again, you'll want to put in a current value < 50 to cause the *ordering* to happen.
 
 ```
 python model-reflex.py
@@ -186,16 +186,21 @@ python learning.py
 
 **Purpose: In this lab, we’ll see how to implement an agent in LangGraph that demos the router workflow.**
 
-1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
+1. For this lab, we'll be using the template file *agent4.py*. Open it up and take a look at the contents. At the top, we have the imports and llm setup filled in. Scroll to the bottom. At the bottom is the part to compile the workflow and example usage for three different use cases: a translation to French, a calculation, and a definition. The agent we build through LangGraph will look at each of these and route it to an appropriate node to handle it. This is the basis of the Agent Routing Workflow.
+
+```
+code agent4.py
+```
+
+![Initial code for agent 4](./images/aa9.png?raw=true "Initial code for agent 4") 
+
+2. As we've done before, we'll build out the agent code with the diff/merge facility. Close the currently open *agent4.py* instance to avoid confusion. Then run the command below.
 ```
 code -d ../extra/lab4-code.txt agent4.py
 ```
 
 ![Merge complete](./images/aa8.png?raw=true "Merge complete") 
 
-2. In the *agent4.py* template, we have the imports and llm setup at the top filled in. Scroll to the bottom. At the bottom is the part to compile the workflow and example usage for three different use cases: a translation to French, a calculation, and a definition. The agent we build through LangGraph will look at each of these and route it to an appropriate node to handle it. This is the basis of the Agent Routing Workflow.
-
-![Code to run agent](./images/aa9.png?raw=true "Code to run agent") 
 
 3. Scroll back to the top, review each change and then merge each one in. When done, the files should show no differences. Click on the "X" in the tab at the top to save your changes to *agent4.py*.
 
@@ -204,7 +209,7 @@ code -d ../extra/lab4-code.txt agent4.py
 4. Now you can run the agent and see the results of each request being handled. There will be quite a bit of output so this may take a moment to run.
 
 ```
-python lab4.py
+python agent4.py
 ```
 
 ![Execution](./images/aa11.png?raw=true "Execution") 
@@ -217,7 +222,7 @@ code -d ../extra/lab4-chart.txt agent4.py
 
 ![Adding code for graph](./images/aa12.png?raw=true "Adding code for graph") 
 
-6. After completing the merge and save, run the agent again. This time it should dump the graph information into a file named *index.html* in the same directory.
+6. After completing the merge and save, run the agent again. This time it should dump the graph information into a file named *index.html* in the same directory. (If you happen to get an error about read timeout when running it, just wait a minute or two and try again.
 
 ```
 python agent4.py
