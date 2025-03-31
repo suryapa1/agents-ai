@@ -18,3 +18,4 @@ requests
 openai
 langchain_ollama
 langchain-community
+langchain-openai
