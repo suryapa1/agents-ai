@@ -222,7 +222,7 @@ code -d ../extra/lab4-chart.txt agent4.py
 
 ![Adding code for graph](./images/aa12.png?raw=true "Adding code for graph") 
 
-6. After completing the merge and save, run the agent again. This time it should dump the graph information into a file named *index.html* in the same directory. (If you happen to get an error about read timeout when running it, just wait a minute or two and try again.
+6. After completing the merge and save, run the agent again. This time it should dump the graph information into a file named *index.html* in the same directory. (If you happen to get an error about read timeout when running it, just wait a minute or two and try again.)
 
 ```
 python agent4.py
@@ -265,7 +265,7 @@ code -d ../extra/lab5-code.txt agent5.py
 
 2. In the *agent5.py* template, we have the imports and llm setup at the top filled in, along with a simulated function to book a flight. Scroll to the bottom. At the bottom is the input and code to kick off the "*crew*". So, we need to fill in the different tasks and setup the crew.
 
-3. Scroll back to the top, review each change and then merge each one in. When done, the files should show no differences. Click on the "X" in the tab at the top to save your changes to *agent5.py*.
+3. Scroll back to the top, review each change and then merge each one in. Notice the occurrences of "*booking_agent*". This is all being done with a single agent in the crew currently. When done, the files should show no differences. Click on the "X" in the tab at the top to save your changes to *agent5.py*.
 
 ![Merge complete](./images/aa24.png?raw=true "Merge complete") 
 
@@ -279,7 +279,7 @@ python agent5.py
 
 5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
 
-*NOTE*: First screenshot below shows highlighted text to be replaced and second shows replaced text.
+*NOTE*: Following the block of replacement text, the first screenshot below shows highlighted text to be replaced and second shows replaced text.
 
 ```
 # Defines the AI agents
