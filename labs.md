@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 1.8 - 03/31/25
+## Revision 1.9 - 03/31/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -358,7 +358,7 @@ python agent5.py
 
 2. Now, let's create the Python file that will pull the dataset, store it in the vector database and invoke an agent with the tool to use it as RAG. First, create a new file for the project.
 ```
-code lab6.py
+code agent6.py
 ```
 
 3. Now, add the imports.
@@ -412,7 +412,7 @@ conversational_memory = ConversationBufferWindowMemory(
     return_messages=True #Must return the messages in the response.
 )
 
-llm = Ollama(model="llama3.2",temperature=0.0)
+llm = Ollama(model="qwen2.5:7b",temperature=0.0)
 ```
 
 7. Now, define the mechanism to use for the agent and retrieving data. ("qa" = question and answer) 
@@ -441,7 +441,7 @@ tools = [
 ]
 ```
 
-8. Create the agent using the LangChain project *hwchase17/react-chat*.
+9. Create the agent using the LangChain project *hwchase17/react-chat*.
 ```
 prompt = hub.pull("hwchase17/react-chat")
 agent = create_react_agent(
@@ -463,7 +463,8 @@ agent_executor = AgentExecutor(agent=agent,
                                )
 ```
 
-9. Add the input processing loop.
+10. Add the input processing loop.
+    
 ```
 while True:
     query = input("\nQuery: ")
@@ -473,14 +474,19 @@ while True:
         continue
     agent_executor.invoke({"input": query})
 ```
-10. Now, **save the file** and run the code.
+
+11. Now, **save the file** and run the code.
+    
 ```
-python lab6.py
+python agent6.py
 ```
-11. You can prompt it with queries related to the info in the dataset, like:
+
+12. When you get the to the "*Query:*" prompt, you can prompt it with queries related to the info in the dataset, like:
 ```
 I have a patient that may have Botulism. How can I confirm the diagnosis?
 ```
+
+(Note: This will take a very long time to run, since we are in a limited resource environment.)
 
 ![final answer](./images/aa25.png?raw=true "final answer") 
 
