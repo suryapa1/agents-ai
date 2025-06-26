@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 2.0 - 06/26/25
+## Revision 2.1 - 06/26/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -53,59 +53,53 @@ python agent1.py
 </p>
 </br></br>
 
-**Lab 2 - Understanding CoT prompting and ReAct Agents**
+**Lab 2 - Exploring MCP**
 
-**Purpose: In this lab, we’ll see how Chain of Thought prompting works with LLMs and how we can have ReAct agents reason and act.**
+**Purpose: In this lab, we’ll see how MCP can be used to standardize an agent's interaction with tools.**
 
-1. To explore CoT prompting, let's try out a simple prompt with our current *llama3.2* model. First, we need to tell Ollama to *run* the model so we can interact directly with it. In the terminal, run the command below.
-
-```
-ollama run llama3.2
-```
-
-2. At the prompt, let's enter a simple query without CoT. Try this one (enter at the prompt and hit Enter). After doing that you should see something like the screenshot below.
+1. Still in the *agents* directory, we have partial implementations of an MCP server and an agent that uses a MCP client to connect to tools on the server. So that you can get acquainted with the main parts of each, we'll build them out as we did the agent in the first lab - by viewing differences and merging. Let's start with the server. Run the command below to see the differences.
 
 ```
-Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm.
+code -d ../extra/lab2-server.txt mcp_server.py
 ```
+</br></br>
+![MCP server code](./images/aa43.png?raw=true "MCP server code") 
 
-![Non-CoT prompt](./images/aa17.png?raw=true "Non-CoT prompt") 
+2. As you look at the differences, note that we are using FastMCP to more easily set up a server, with its @mcp.tool decorators to designate our functions as MCP tools. Also, we run this using the *streamable-http* transport protocol. Review each difference to see what is being done, then use the arrows to merge. When finished, click the "x"" in the tab at the top to close and save the files.
 
-3. Now, let's take a look at what the output might look like **with** a CoT prompt. Enter the prompt below and hit Enter. After doing that you should see something like the screenshot below. 
-
-```
-Calculate the area of a rectangle with a length of 6 cm and a width of 4 cm step by step. Explain your reasoning.
-```
-
-![CoT prompt](./images/aa18.png?raw=true "CoT prompt") 
-
-4. You can end the interactive mode by using Ctrl+D. Moving on, let's see how a ReAct (Thought->Action->Observation) agent "reasons". In the *agents* directory, there is a file named *agent2.py*. You can open it via [**agents/agent2.py**](./agents/agent2.py) or with the command below. Open it up and take a look at the contents. It's a simple ReAct agent setup with LangChain.
+3. Now that we've built out the server code, run it using the command below. You should see some startup messages similar to the ones in the screenshot.
 
 ```
-code agent2.py
+python mpc_server.py
 ```
+</br></br>
+![MCP server start](./images/aa44.png?raw=true "MCP server start") 
 
-5. As you can see in the last line, it has a query that will force it to search for multiple data points (coldest temp, current temp) and then do a calculation with them. It has two tools it can use - *DuckDuckGo-search (ddg-search)* and an *llm-math* one. Let's see if it can reason through the steps.  Run the *agent2.py* program and watch the output.
+4. Now, let's turn our attention to the agent that will use the MCP server through an MCP client interface. First, since the terminal is tied up with the running server, we need to have a second terminal to use to work with the client. So that we can see the server responses, let's just open another terminal side-by-side with this one. To do that, right-click in the current terminal and select *Split Terminal* from the pop-up context menu.
 
-```
-python agent2.py
-```
+![Opening a second terminal](./images/aa45.png?raw=true "Opening a second terminal") 
 
-6. What you will probably see after a minute or so is the agent getting "stuck" in a loop repeatedly trying to find the requested temperatures. As it turns out, our small *llama3.2* model is not powerful enough to handle this - at least in an optimal way. Go ahead and stop the run with a *Ctrl-C*.
-
-![Stopping loop](./images/aa19.png?raw=true "Stopping loop") 
-
-
-7. We also have the more substantial *qwen2.5:7b* model running. Let's use it. Since we're going to be using a different model, we need to update *agent2.py* to use the new model. On line 10, change *llama3.5* to *qwen2.5:7b* and save your changes (Ctrl/Cmd+S).
-
-![Changing model](./images/aa21.png?raw=true "Changing model") 
-
-8. Now you can run the agent again. This will take a long time to complete, so you can **just leave it running while we proceed**. But what you should eventually see is it displaying the *Thought->Action->Observation* process and eventually reaching a final answer as expected.
+5. In the second terminal, run a diff command so we can build out the new agent.
 
 ```
-python agent2.py
+code -d ../extra/lab2-code.txt mpc_agent.py
 ```
-![Second run](./images/aa22.png?raw=true "Second run") 
+
+6. Review and merge the changes as before. What we're highlighting in this step are the *System Prompt* that drives the LLM used by the agent, the connection with the MCP client at the /mcp/ endpoint (line 55), and the mpc calls to the tools on the server. When finished, close the tab to save the changes as before.
+
+![Agent using MCP client code](./images/aa48.png?raw=true "Agent using MCP client code") 
+   
+7. After you've made and saved the changes, you can run the client in the terminal with the command below.
+
+```
+python mpc_agent.py
+```
+
+8. The agent should start up, and, as in lab 1, prompt you for a location. You'll be able to see similar TAO output. And you'll also be able to see the server INFO messages in the other terminal as the MCP connections and events happen.
+
+![Agent using MCP client running](./images/aa47.png?raw=true "Agent using MCP client running") 
+
+9. When you're done, you can use 'exit' to stop the client and CTRL-C to stop the server. 
 
 <p align="center">
 **[END OF LAB]**
