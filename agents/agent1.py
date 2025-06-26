@@ -1,29 +1,50 @@
+# weather-agent with TAO – day-forecast + interactive loop + full tracing
+
 import json
-import os
-
 import requests
-from openai import OpenAI
-from pydantic import BaseModel, Field
+import textwrap
+from langchain_ollama import ChatOllama
 
-# Set up local model access 
+# ── 1. Open-Meteo weather-code lookup ──────────────────────────────────────
+WEATHER_CODES = {
+    0:  "Clear sky",                     1:  "Mainly clear",
+    2:  "Partly cloudy",                 3:  "Overcast",
+    45: "Fog",                           48: "Depositing rime fog",
+    51: "Light drizzle",                 53: "Moderate drizzle",
+    55: "Dense drizzle",                 56: "Light freezing drizzle",
+    57: "Dense freezing drizzle",        61: "Slight rain",
+    63: "Moderate rain",                 65: "Heavy rain",
+    66: "Light freezing rain",           67: "Heavy freezing rain",
+    71: "Slight snow fall",              73: "Moderate snow fall",
+    75: "Heavy snow fall",               77: "Snow grains",
+    80: "Slight rain showers",           81: "Moderate rain showers",
+    82: "Violent rain showers",          85: "Slight snow showers",
+    86: "Heavy snow showers",            95: "Thunderstorm",
+    96: "Thunderstorm with slight hail", 99: "Thunderstorm with heavy hail",
+}
 
+# ── 2. Tools ───────────────────────────────────────────────────────────────
 
-# Define the function that we want to call for find_weather
+# ── 3. LLM client ───────────────────────────────────────────────────────────
+llm = ChatOllama(model="llama3.2", temperature=0.0)
 
+# ── 4. System prompt ────────────────────────────────────────────────────────
 
-# Expose the function as a tool for the agent
+# ── 5. TAO run helper ───────────────────────────────────────────────────────
 
+    # LLM chooses coordinates
 
-# 1. Set up system prompt and user message and call the model
+    # LLM decides to convert °C → °F
 
+    # Assemble final answer
 
-# 2. Model decides to call function(s) - convert data into dictionary
+# ── 6. Interactive loop ────────────────────────────────────────────────────
+if __name__ == "__main__":
+    print("Weather-forecast agent (type 'exit' to quit)\n")
+    while True:
+        loc = input("Location (or 'exit'): ").strip()
+        if loc.lower() == "exit":
+            print("Goodbye!")
+            break
 
-
-# 3. Execute find_weather function and add result to messages for model
-
-
-# 4. Supply result from tool and call model again to make nice output
-
-
-# 5. Print final model response
+        # Build the question for the agent
