@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 1.9 - 03/31/25
+## Revision 2.0 - 06/26/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
