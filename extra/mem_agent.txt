@@ -1,0 +1,179 @@
+# travel_agent_smolagents_with_memory.py
+# A travel assistant agent using smolagents with short-term and long-term memory, dynamic start location, and debug prints.
+
+import os
+import json
+import math
+import requests
+from smolagents import tool, ToolCallingAgent
+from smolagents import LiteLLMModel
+
+# ANSI color codes for terminal output
+BLUE = "\033[94m"
+GREEN = "\033[92m"
+RED = "\033[91m"
+RESET = "\033[0m"
+BOLD = "\033[1m"
+
+# Base system prompt guiding agent behavior (tool must be used for distance)
+system_prompt = (
+    "You are a helpful travel assistant. "
+    "For any distance calculation, you must use the calculate_distance_tool function. "
+    "Think step-by-step internally, but only output the final clean answer to the user. "
+    "The final output should include exactly 3 interesting facts about the destination, formatted as bullet points (-), "
+    "followed by the distance in miles as returned by the tool."
+)
+
+# ----------------------
+# Helper functions
+# ----------------------
+
+def geocode_location(location_query: str) -> (float, float):
+    """
+    Geocode a location string to (latitude, longitude) using OSM Nominatim API.
+    """
+    headers = {'User-Agent': 'TravelAgent/1.0'}
+    try:
+        resp = requests.get(
+            "https://nominatim.openstreetmap.org/search",
+            params={"q": location_query, "format": "json"},
+            headers=headers,
+            timeout=5
+        )
+        data = resp.json()
+        if data:
+            return float(data[0]['lat']), float(data[0]['lon'])
+    except Exception:
+        pass
+    return None, None
+
+
+def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """
+    Calculate great-circle distance between two points given by lat/lon using the haversine formula.
+    """
+    R = 3958.8  # Earth radius in miles
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (
+        math.sin(dlat / 2)**2
+        + math.cos(math.radians(lat1))
+        * math.cos(math.radians(lat2))
+        * math.sin(dlon / 2)**2
+    )
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    return R * c
+
+# ----------------------
+# Tool definition
+# ----------------------
+
+@tool
+def calculate_distance_tool(destination_query: str) -> dict:
+    """
+    Calculate straight-line distance in miles from a starting location to a provided destination.
+
+    Args:
+        destination_query: The name of the destination location to calculate distance to.
+    Returns:
+        A dict containing:
+            destination: the original destination query
+            distance_miles: the calculated distance in miles
+    """
+    # Debug: log tool invocation
+    print(f"[Tool ▶] calculate_distance_tool called with: {destination_query}")
+    # Retrieve home coords from long_memory loaded globally
+    lat1, lon1 = home_coords
+    lat2, lon2 = geocode_location(destination_query)
+    if lat2 is None or lon2 is None:
+        result = {"error": "Could not find destination."}
+        print(f"[Tool ✖] {result}")
+        return result
+    miles = haversine_distance(lat1, lon1, lat2, lon2)
+    result = {"destination": destination_query, "distance_miles": round(miles, 2)}
+    print(f"[Tool ✔] returning: {result}")
+    return result
+
+# ----------------------
+# Agent setup
+# ----------------------
+
+# Initialize LiteLLMModel
+model = LiteLLMModel(
+    model_id="ollama/llama3.2",
+    api_base="http://localhost:11434",
+    api_key="ollama",
+    temperature=0.0
+)
+agent = ToolCallingAgent(
+    tools=[calculate_distance_tool],
+    model=model
+)
+
+# ----------------------
+# Memory and Start Location Setup
+# ----------------------
+MEM_FILE = "user_memory.json"
+if os.path.exists(MEM_FILE):
+    long_memory = json.load(open(MEM_FILE))
+else:
+    long_memory = {"favorites": [], "recent_queries": [], "home_location": "Raleigh, NC", "home_coords": None}
+
+# Load or prompt for home location
+default_loc = long_memory.get("home_location", "Raleigh, NC")
+loc_input = input(f"Enter your starting location (default: {default_loc}) [Press Enter to keep default]: ")
+home_location = loc_input.strip() or default_loc
+
+# If coords not set or location changed, geocode and save
+if not long_memory.get("home_coords") or long_memory.get("home_location") != home_location:
+    coords = geocode_location(home_location)
+    long_memory["home_location"] = home_location
+    long_memory["home_coords"] = coords
+    with open(MEM_FILE, "w") as f:
+        json.dump(long_memory, f, indent=2)
+
+home_coords = tuple(long_memory["home_coords"])
+
+# In-memory buffer for short-term memory
+memory_buffer = []
+
+# ----------------------
+# Main interactive loop
+# ----------------------
+if __name__ == "__main__":
+    print(f"\nTravel Assistant ready! Using start: {home_location} ({home_coords[0]}, {home_coords[1]})")
+    print("Type 'exit' to quit.")
+
+    while True:
+        user_input = input("\nUser: ")
+        if user_input.strip().lower() == "exit":
+            print("Goodbye!")
+            break
+
+        # Build dynamic prompt with profile and recent conv
+        favs = long_memory.get("favorites", [])
+        profile = "- Favorites: " + ", ".join(favs) if favs else "- No favorites yet"
+        profile += f"\n- Total past queries: {len(long_memory.get('recent_queries', []))}"
+        recent = memory_buffer[-3:]
+        convo = "\n".join(f"User: {u}\nAssistant: {a}" for u, a in recent) if recent else ""
+        dynamic_prompt = system_prompt + f"\n\nStart: {home_location}" + f"\nYour profile:\n{profile}"
+        if convo:
+            dynamic_prompt += f"\n\nRecent conversation:\n{convo}"
+
+        # DEBUG: print prompt
+        print("\n========== DEBUG: system_prompt ==========")
+        print(dynamic_prompt)
+        print("========================================\n")
+
+        # Run the agent
+        final_answer = agent.run(user_input)
+        print(f"\n{GREEN}Assistant Final Response:{RESET}\n{final_answer}\n")
+
+        # Update memories
+        memory_buffer.append((user_input, final_answer))
+        if "beach" in final_answer.lower() and "beach" not in long_memory["favorites"]:
+            long_memory["favorites"].append("beach")
+        long_memory.setdefault("recent_queries", []).append(user_input)
+        long_memory["recent_queries"] = long_memory["recent_queries"][-20:]
+        with open(MEM_FILE, "w") as f:
+            json.dump(long_memory, f, indent=2)
