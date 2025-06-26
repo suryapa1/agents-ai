@@ -106,6 +106,91 @@ python mpc_agent.py
 </p>
 </br></br>
 
+**Lab 3 - Leveraging Memory of Agents**
+
+**Purpose: In this lab, we’ll explore how to utilize short-term and long-term memory techniques while also seeing how agents can be implemented with the SmolAgents framework.**
+
+1. For this lab, we have an application that does the following:
+
+- Lets you input a starting location
+- Lets you prompt about a destination location
+- Provides 3 interesting facts about the destination
+- Calls a tool to calculate distance from the starting location to the destination
+- Stores information about past prompts and user preferences in an external file
+- Adds information from past runs to the next prompt
+- Repeats until user enters *exit*
+
+2. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below:
+
+```
+code -d ../extra/mem_agent.txt mem_agent.py
+```
+</br></br>
+
+![Code for memory agent](./images/aa51.png?raw=true "Code for memory agent") 
+
+3. The code in this application showcases several SmolAgents features and agent techniques including the following. See how many you can identify as your reviewing the code.
+
+- **`@tool` Decorator**  
+  Registers plain Python functions as callable “tools” the agent can invoke.
+
+- **`ToolCallingAgent`**  
+  Wraps an LLM and your tools into a multi-step agent that:  
+  1. Generates a “thought” sequence  
+  2. Emits explicit tool-call requests  
+  3. Executes your Python tool(s)  
+  4. Continues reasoning with the tool outputs  
+  5. Returns only the final clean answer
+
+- **Custom Prompt Templates**  
+  Uses `agent.prompt_templates['system_prompt']` to inject both:  
+  - A fixed instruction (what to do, when to call tools)  
+  - Dynamic context (short-term buffer + long-term JSON memory)
+
+- **Short-Term Memory**  
+  Maintains a small in-process `memory_buffer` of recent turns, folded into each new prompt so the agent “remembers” the last N interactions.
+
+- **Long-Term Memory**  
+  Persists user preferences and query history to a JSON file, then reloads and injects that profile at startup, demonstrating how agents can “remember” across sessions.
+
+4. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
+
+```
+python mem_agent.py
+```
+
+5. At this point, you can choose to override the default starting location, or leave it by either typing a new one or just hitting *Enter*. Then you can prompt about a location like a city (Paris, London, etc.) and watch the agent work. The agent will display the augmented prompt each time as well as information about tool calls, etc. Go through at least three iterations of this. The agent will also append history and profile information to the next prompt. The next screenshot points out several examples of functionality.
+
+
+![Running agent](./images/aa49.png?raw=true "Running agent")   
+
+ 
+6. To see the stored profile and history information, in another terminal, in the same directory, look for the file *user_memory.json*. You can *cat* the file to see the contents, which is the stored defaults, profile, and history information for the agent.
+
+![Extermal store](./images/aa50.png?raw=true "External store")  
+
+7. There is a built-in example to trigger a *favorites* selection. If you prompt the agent about something with "beach" in it, it will store that as a favorite. You can try that if you want by asking the model something like the line below. Then, you can look at the *user_memory.json* file and you should see that as a favorite.
+
+```
+Tell me about Santa Monica Beach
+```
+
+8. Since the agent has memory, you can also try out some other non-location prompts like the ones below.
+
+```
+What was my most recent query?
+What is my favorite?
+How much farther is X than Y from my starting location?
+```
+
+9. Once you're done working with the agent code, you can use *exit* or CTRL-C to stop it.
+
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
+
+    
 **Lab 3 - Types of Agents**
 
 **Purpose: In this lab, we’ll see and execute some different representations of agent types written with AutoGen.**
