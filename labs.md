@@ -16,6 +16,7 @@ cd agents
 ```
 
 2. For this lab, we have the outline of an agent in a file called *agent1.py* in that directory. You can take a look at the code either by clicking on [**agents/agent1.py**](./agents/agent1.py) or by entering the command below in the codespace's terminal.
+   
 ```
 code agent1.py
 ```
@@ -572,6 +573,65 @@ I have a patient that may have Botulism. How can I confirm the diagnosis?
 **[END OF LAB]**
 </p>
 </br></br>
+
+**Lab 7 - Using RAG with Agents**
+
+**Purpose: In this lab, we’ll explore how agents can leverage external data stores via RAG**
+
+1. For this lab, we have an application that does the following:
+
+- Reads, processes, and stores information about company offices from a PDF file
+- Lets you input a starting location
+- Lets you prompt about a destination location such as an office name
+- Maps the destination back to data taken from the PDF if it can
+- Uses the destination from the PDF data or from the prompt to  
+  - Find and provide 3 interesting facts about the destination
+  - Calculate distance from the starting location to the destination
+- Stores information about starting location in an external file
+- Repeats until user enters *exit*
+
+2. The PDF file we're using to illustrate RAG here is a fictional list of offices and related info for a company. You can see it in the repo at  [**data/offices.pdf**](./data/offices.pdf) 
+
+![Data pdf](./images/aa66.png?raw=true "Data pdf") 
+
+
+3. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below. The code differences mainly hightlight the changes for RAG use in the agent, including working with vector database and snippets returned from searching it.
+   
+```
+code -d ../extra/rag_agent.txt rag_agent.py
+```
+</br></br>
+
+![Code for rag agent](./images/aa65.png?raw=true "Code for rag agent") 
+
+
+4. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
+
+```
+python rag_agent.py
+```
+
+5. At this point, you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
+
+```
+Tell me about HQ
+Tell me about the Southern office
+```
+
+6. What you should see after that are some messages that show internal processing, such as the retrieved items from the RAG datastore.  Then the agent will run through the necessary steps like geocoding locations, calculating distance, using the LLM to get interesting facts about the city etc. At the end it will print out facts about the office location, and the city the office is in, as well as the distance to the office.
+ 
+![Running the RAG agent](./images/aa67.png?raw=true "Running the RAG agent") 
+
+7. The stored information about startup location is in a file named *user_starting_location.json* in the same directory if you want to view that.
+
+8. After the initial run, you can try prompts about other offices or cities mentioned in the PDF. Type *exit* when done.
+
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
+
+
 
 <p align="center">
 **THANKS!**
