@@ -6,6 +6,7 @@ langchain-ollama==0.3.3        # aligns with langchain-core 0.3.x  [oai_citation
 # ── Agent frameworks ────────────────────────────────────────────────────
 langgraph==0.4.9
 crewai==0.126.0
+smolagents==1.19.0
 
 # ── Model Context Protocol (MCP) server/client ──────────────────────────
 fastmcp==2.9.0
@@ -21,7 +22,10 @@ openai==1.75.0        # satisfies CrewAI & LlamaIndex (>=1.1,<1.76)
 tokenizers==0.21.2    # satisfies transformers 4.52.x (>=0.21,<0.22)
 python-dotenv==1.1.1
 requests>=2.28        # for the weather‐lookup tool
+httptools==0.6.4
+pdfminer-six==20250506
+sentence-transformers==4.1.0
+uvloop==0.21.0
+watchfiles==1.1.0
 
-# -- Miscellaneous --------------------------------
-sentence-transformers
-smolagents
+
