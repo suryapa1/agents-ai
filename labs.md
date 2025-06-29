@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 2.2 - 06/27/25
+## Revision 3.0 - 06/29/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -109,82 +109,75 @@ python mpc_agent.py
 
 **Lab 3 - Leveraging Memory of Agents**
 
-**Purpose: In this lab, we’ll explore how to utilize short-term and long-term memory techniques while also seeing how agents can be implemented with the SmolAgents framework.**
+**Purpose: In this lab, we’ll see how agents can implement simple memory techniques while also seeing how agents can be implemented with the SmolAgents framework.**
 
-1. For this lab, we have an application that does the following:
-
-- Lets you input a starting location
-- Lets you prompt about a destination location
-- Provides 3 interesting facts about the destination
-- Calls a tool to calculate distance from the starting location to the destination
-- Stores information about past prompts and user preferences in an external file
-- Adds information from past runs to the next prompt
-- Repeats until user enters *exit*
+1. 1. For this lab, we have a simple application that does currency conversion using prompts of the form "Convert 100 USD to EUR", where *USD* = US dollars and *EUR* = euros.  It will also remember previous values and invocations.
 
 2. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below:
 
 ```
-code -d ../extra/mem_agent.txt mem_agent.py
+code -d ../extra/curr_conv_agent.txt curr_conv_agent.py
 ```
 </br></br>
 
-![Code for memory agent](./images/aa51.png?raw=true "Code for memory agent") 
+![Code for memory agent](./images/aa68.png?raw=true "Code for memory agent") 
 
 3. The code in this application showcases several SmolAgents features and agent techniques including the following. See how many you can identify as your reviewing the code.
 
-- **`@tool` Decorator**  
-  Registers plain Python functions as callable “tools” the agent can invoke.
+- **@tool decorator** turns your Python functions into callable “tools” for the agent.  
+- **LiteLLMModel** plugs in your local Ollama llama3.2 as the agent’s reasoning engine.  
+- **CodeAgent** runs a ReAct loop: think (LLM), act (call tool), observe, repeat.  
+- **Controlled toolset** (`add_base_tools=False`) limits the agent to only your defined tools.  
+- **Deterministic output** (`temperature=0.0`) ensures consistent tool selection and results.  
+- **Tool chaining** lets the agent fetch live rates, then compute conversions in sequence.  
+- **Memory feature** remembers current values and persists them (with history) to an external JSON file.  
 
-- **`ToolCallingAgent`**  
-  Wraps an LLM and your tools into a multi-step agent that:  
-  1. Generates a “thought” sequence  
-  2. Emits explicit tool-call requests  
-  3. Executes your Python tool(s)  
-  4. Continues reasoning with the tool outputs  
-  5. Returns only the final clean answer
-
-- **Custom Prompt Templates**  
-  Uses `agent.prompt_templates['system_prompt']` to inject both:  
-  - A fixed instruction (what to do, when to call tools)  
-  - Dynamic context (short-term buffer + long-term JSON memory)
-
-- **Short-Term Memory**  
-  Maintains a small in-process `memory_buffer` of recent turns, folded into each new prompt so the agent “remembers” the last N interactions.
-
-- **Long-Term Memory**  
-  Persists user preferences and query history to a JSON file, then reloads and injects that profile at startup, demonstrating how agents can “remember” across sessions.
 
 4. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
 
 ```
-python mem_agent.py
+python curr_conv_agent.py
 ```
 
-5. At this point, you can choose to override the default starting location, or leave it by either typing a new one or just hitting *Enter*. Then you can prompt about a location like a city (Paris, London, etc.) and watch the agent work. The agent will display the augmented prompt each time as well as information about tool calls, etc. Go through at least three iterations of this. The agent will also append history and profile information to the next prompt. The next screenshot points out several examples of functionality.
-
-
-![Running agent](./images/aa49.png?raw=true "Running agent")   
-
- 
-6. To see the stored profile and history information, in another terminal, in the same directory, look for the file *user_memory.json*. You can *cat* the file to see the contents, which is the stored defaults, profile, and history information for the agent.
-
-![Extermal store](./images/aa50.png?raw=true "External store")  
-
-7. There is a built-in example to trigger a *favorites* selection. If you prompt the agent about something with "beach" in it, it will store that as a favorite. You can try that if you want by asking the model something like the line below. Then, you can look at the *user_memory.json* file and you should see that as a favorite.
+5. Enter a basic prompt like the one below.
 
 ```
-Tell me about Santa Monica Beach
+Convert 100 USD to EUR
 ```
 
-8. Since the agent has memory, you can also try out some other non-location prompts like the ones below.
+6. The agent will run for a while and not return as the LLM loads and the processing happens. When it is finished with this run, you'll see output like the screenshot below. Notice that since we used the SmolAgents CodeAgent type, you can see the code it created and executed in the black box.
+
+![Running agent](./images/aa69.png?raw=true "Running agent")   
+
+7. Now you can try some partial inputs with missing values to demonstrate the agent remembering arguments that were passed to it before. Here are some to try. Output is shown in the screenshot. (You may see some intermediate steps.)
 
 ```
-What was my most recent query?
-What is my favorite?
-How much farther is X than Y from my starting location?
+Convert 200
+Convert 400 to JPY
 ```
 
-9. Once you're done working with the agent code, you can use *exit* or CTRL-C to stop it.
+![Running with partial inputs](./images/aa70.png?raw=true "Running agent")  
+![Running with partial inputs](./images/aa71.png?raw=true "Running agent")   
+
+
+8. To see the stored history information on disk, type "exit" to exit the tool. Then in the terminal type the command below to see the contents of the file.
+
+```
+cat currency_memory.json
+```
+
+![Running with partial inputs](./images/aa72.png?raw=true "Running agent") 
+
+9. Finally, you can start the agent again and enter "history" at the prompt to see the persisted history from before. Then you can try a query and it should pick up as before. In the example, we used the query below:
+
+```
+convert 300
+```
+
+![Running with partial inputs](./images/aa73.png?raw=true "Running agent")   
+
+
+10.  Just type "exit" when ready to quit the tool.
 
 <p align="center">
 **[END OF LAB]**
@@ -192,73 +185,6 @@ How much farther is X than Y from my starting location?
 </br></br>
 
     
-**Lab 3 - Types of Agents**
-
-**Purpose: In this lab, we’ll see and execute some different representations of agent types written with AutoGen.**
-
-1. In the *agents* directory, we have 5 python files for understanding more about how the different agent types work. These files are *goal.py*, *learning.py*, *model-reflex.py*, *reflex.py*, and *utility.py*.
-
-   Each of these files is a very simple implementation corresponding to one of the agent types. The scenario they all deal with is managing inventory and determining whether to order more or not. 
-
-   In this lab, we're going to look at each agent type in turn and try them out to see how the different agent types function.
-
-(**Note:** *In production use, there would be more interactions after the logic, more interactions with the LLM, tool calls, etc., but we're keeping it simple and simulating some things for now to focus on understanding.*)
-
-2. Let's start with the *simple reflex* agent. Open the file by clicking [**agents/reflex.py**](./agents/reflex.py) or via the command below.
-```
-code reflex.py
-```
-
-3. At the bottom of the file, we have the starting code that asks for an input that is the current inventory level and then invokes the actual agent (A in screenshot). Then, near the top, we have the actual AutoGen agent definition which includes logic to decide whether to call the LLM or not. Since this is a *reflex* agent, the logic is "if inventory is low (< 50), then order more" (B in screenshot). Ordering is handed off to the LLM to handle (C) where it pretends to have placed an order according to the prompt passed in in the *message* section.
-
-![reflex agent logic](./images/aa33.png?raw=true "reflex agent logic")
-
-4. Now, go ahead and run the agent and enter a value < 50 to force an "*order*". Note that the output is simulating an order with made-up information.
-
-```
-python reflex.py
-```
-
-![reflex agent run](./images/aa34.png?raw=true "reflex agent run")
-
-5. We'll follow a similar approach for the remaining agent types. The next one is *model-reflex.py*, for the type of agent that executes an action based on an internal model. Open it up and review the code.
-   
-6. The main difference here is there is an extra input for *increasing* or *decreasing*. Based off of the combined *model* of the inventory amount and whether demand (sales trend) is increasing or decreasing, it will decide whether to order 50 or 100 units. (The combination simulates a "model" for basing action on.) Once you've reviewed the code, you can run it in the usual way. Again, you'll want to put in a current value < 50 to cause the *ordering* to happen.
-
-```
-python model-reflex.py
-```
-
-![model-reflex agent run](./images/aa35.png?raw=true "model-reflex agent run")
-
-7. Next is the one based off of a goal. Open and review. In this one, if the inventory amount you input is lower than the lower bound you input, the agent orders more. If the inventory amount is between the lower and upper bounds, no action is required. If the inventory amount is greater than the upper bound, it creates a sales ad for a discount to get rid of excess.
-
-```
-python goal.py
-```
-
-![goal agent run](./images/aa36.png?raw=true "goal agent run")
-
-8. The *utility* one is a bit more complicated. But, essentially it attempts to minimize for total cost, by taking into account cost for storing inventory (holding cost) vs the cost of not having enough inventory to meet demand (stockout cost). Based on this utility function, the agent will decide whether to order more inventory or not.
-
-```
-python utility.py
-```
-
-![goal agent run](./images/aa37.png?raw=true "goal agent run")
-
-9. Finally, we have the *learning* demo. It has logic to adjust the order quantity based on current inventory and recent sales trends. You input those values and it stores the information to *learn* from so it can be considered for the next run. This one repeats in a loop until you type "exit".
-
-```
-python learning.py
-```
-
-![learning agent run](./images/aa38.png?raw=true "learning agent run")
-
-<p align="center">
-**[END OF LAB]**
-</p>
-</br></br>
 
 
 **Lab 4 - Router Workflow with LangGraph Agent**
@@ -326,6 +252,64 @@ http-server
 
 10. When you're done looking at this, you can close the web page and then go back to the terminal and stop the *http-server* process with *Ctrl-C*.
     
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
+
+
+**Lab 4 - Using RAG with Agents**
+
+**Purpose: In this lab, we’ll explore how agents can leverage external data stores via RAG**
+
+1. For this lab, we have an application that does the following:
+
+- Reads, processes, and stores information about company offices from a PDF file
+- Lets you input a starting location
+- Lets you prompt about a destination location such as an office name
+- Maps the destination back to data taken from the PDF if it can
+- Uses the destination from the PDF data or from the prompt to  
+  - Find and provide 3 interesting facts about the destination
+  - Calculate distance from the starting location to the destination
+- Stores information about starting location in an external file
+- Repeats until user enters *exit*
+
+2. The PDF file we're using to illustrate RAG here is a fictional list of offices and related info for a company. You can see it in the repo at  [**data/offices.pdf**](./data/offices.pdf) 
+
+![Data pdf](./images/aa66.png?raw=true "Data pdf") 
+
+
+3. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below. The code differences mainly hightlight the changes for RAG use in the agent, including working with vector database and snippets returned from searching it.
+   
+```
+code -d ../extra/rag_agent.txt rag_agent.py
+```
+</br></br>
+
+![Code for rag agent](./images/aa65.png?raw=true "Code for rag agent") 
+
+
+4. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
+
+```
+python rag_agent.py
+```
+
+5. At this point, you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
+
+```
+Tell me about HQ
+Tell me about the Southern office
+```
+
+6. What you should see after that are some messages that show internal processing, such as the retrieved items from the RAG datastore.  Then the agent will run through the necessary steps like geocoding locations, calculating distance, using the LLM to get interesting facts about the city etc. At the end it will print out facts about the office location, and the city the office is in, as well as the distance to the office.
+ 
+![Running the RAG agent](./images/aa67.png?raw=true "Running the RAG agent") 
+
+7. The stored information about startup location is in a file named *user_starting_location.json* in the same directory if you want to view that.
+
+8. After the initial run, you can try prompts about other offices or cities mentioned in the PDF. Type *exit* when done.
+
 <p align="center">
 **[END OF LAB]**
 </p>
@@ -427,211 +411,6 @@ python agent5.py
 </p>
 </br></br>
  
-**(Bonus) Lab 6 - Implementing Agentic RAG**
-
-**Purpose: In this lab, we’ll see how to setup an agent using RAG with a tool.**
-
-1. In this lab, we'll download a medical dataset, parse it into a vector database, and create an agent with a tool to help us get answers. First,let's take a look at a dataset of information we'll be using for our RAG context. We'll be using a medical Q&A dataset called [**keivalya/MedQuad-MedicalQnADataset**](https://huggingface.co/datasets/keivalya/MedQuad-MedicalQnADataset). You can go to the page for it on HuggingFace.co and view some of it's data or explore it a bit if you want. To get there, either click on the link above in this step or go to HuggingFace.co and search for "keivalya/MedQuad-MedicalQnADataset" and follow the links.
-   
-![dataset on huggingface](./images/aa16.png?raw=true "dataset on huggingface")    
-
-2. Now, let's create the Python file that will pull the dataset, store it in the vector database and invoke an agent with the tool to use it as RAG. First, create a new file for the project.
-```
-code agent6.py
-```
-
-3. Now, add the imports.
-```
-from datasets import load_dataset
-from langchain_community.document_loaders import DataFrameLoader
-from langchain_community.vectorstores import Chroma
-from langchain.text_splitter import CharacterTextSplitter
-from langchain_community.llms import Ollama 
-from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains.conversation.memory import ConversationBufferWindowMemory
-from langchain.chains import RetrievalQA
-from langchain.agents import Tool
-from langchain.agents import create_react_agent
-from langchain import hub
-from langchain.agents import AgentExecutor
-```
-
-4. Next, we pull and load the dataset.
-   
-```
-data = load_dataset("keivalya/MedQuad-MedicalQnADataset", split='train')
-data = data.to_pandas()
-data = data[0:100]
-df_loader = DataFrameLoader(data, page_content_column="Answer")
-df_document = df_loader.load()
-```
-
-5. Then, we split the text into chunks and load everything into our Chroma vector database.
-```
-from langchain.text_splitter import CharacterTextSplitter
-text_splitter = CharacterTextSplitter(chunk_size=1250,
-                                      separator="\n",
-                                      chunk_overlap=100)
-texts = text_splitter.split_documents(df_document)
-
-# set some config variables for ChromaDB
-CHROMA_DATA_PATH = "vdb_data/"
-
-embeddings = FastEmbedEmbeddings()  
-
-# embed the chunks as vectors and load them into the database
-db_chroma = Chroma.from_documents(df_document, embeddings, persist_directory=CHROMA_DATA_PATH)
-```
-6. Set up memory for the chat, and choose the LLM.
-```
-conversational_memory = ConversationBufferWindowMemory(
-    memory_key='chat_history',
-    k=4, #Number of messages stored in memory
-    return_messages=True #Must return the messages in the response.
-)
-
-llm = Ollama(model="qwen2.5:7b",temperature=0.0)
-```
-
-7. Now, define the mechanism to use for the agent and retrieving data. ("qa" = question and answer) 
-```
-qa = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=db_chroma.as_retriever()
-)
-```
-
-8. Define the tool itself (calling the "qa" function we just defined above as the tool).
-from langchain.agents import Tool
-
-```
-#Defining the list of tool objects to be used by LangChain.
-tools = [
-   Tool(
-       name='Medical KB',
-       func=qa.run,
-       description=(
-           'use this tool when answering medical knowledge queries to get '
-           'more information about the topic'
-       )
-   )
-]
-```
-
-9. Create the agent using the LangChain project *hwchase17/react-chat*.
-```
-prompt = hub.pull("hwchase17/react-chat")
-agent = create_react_agent(
-   tools=tools,
-   llm=llm,
-   prompt=prompt,
-)
-
-# Create an agent executor by passing in the agent and tools
-from langchain.agents import AgentExecutor
-agent_executor = AgentExecutor(agent=agent,
-                               tools=tools,
-                               verbose=True,
-                               memory=conversational_memory,
-                               max_iterations=30,
-                               max_execution_time=600,
-                               #early_stopping_method='generate',
-                               handle_parsing_errors=True
-                               )
-```
-
-10. Add the input processing loop.
-    
-```
-while True:
-    query = input("\nQuery: ")
-    if query == "exit":
-        break
-    if query.strip() == "":
-        continue
-    agent_executor.invoke({"input": query})
-```
-
-11. Now, **save the file** and run the code.
-    
-```
-python agent6.py
-```
-
-12. When you get the to the "*Query:*" prompt, you can prompt it with queries related to the info in the dataset, like:
-```
-I have a patient that may have Botulism. How can I confirm the diagnosis?
-```
-
-(Note: This will take a very long time to run, since we are in a limited resource environment.)
-
-![final answer](./images/aa25.png?raw=true "final answer") 
-
-<p align="center">
-**[END OF LAB]**
-</p>
-</br></br>
-
-**Lab 7 - Using RAG with Agents**
-
-**Purpose: In this lab, we’ll explore how agents can leverage external data stores via RAG**
-
-1. For this lab, we have an application that does the following:
-
-- Reads, processes, and stores information about company offices from a PDF file
-- Lets you input a starting location
-- Lets you prompt about a destination location such as an office name
-- Maps the destination back to data taken from the PDF if it can
-- Uses the destination from the PDF data or from the prompt to  
-  - Find and provide 3 interesting facts about the destination
-  - Calculate distance from the starting location to the destination
-- Stores information about starting location in an external file
-- Repeats until user enters *exit*
-
-2. The PDF file we're using to illustrate RAG here is a fictional list of offices and related info for a company. You can see it in the repo at  [**data/offices.pdf**](./data/offices.pdf) 
-
-![Data pdf](./images/aa66.png?raw=true "Data pdf") 
-
-
-3. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below. The code differences mainly hightlight the changes for RAG use in the agent, including working with vector database and snippets returned from searching it.
-   
-```
-code -d ../extra/rag_agent.txt rag_agent.py
-```
-</br></br>
-
-![Code for rag agent](./images/aa65.png?raw=true "Code for rag agent") 
-
-
-4. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
-
-```
-python rag_agent.py
-```
-
-5. At this point, you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
-
-```
-Tell me about HQ
-Tell me about the Southern office
-```
-
-6. What you should see after that are some messages that show internal processing, such as the retrieved items from the RAG datastore.  Then the agent will run through the necessary steps like geocoding locations, calculating distance, using the LLM to get interesting facts about the city etc. At the end it will print out facts about the office location, and the city the office is in, as well as the distance to the office.
- 
-![Running the RAG agent](./images/aa67.png?raw=true "Running the RAG agent") 
-
-7. The stored information about startup location is in a file named *user_starting_location.json* in the same directory if you want to view that.
-
-8. After the initial run, you can try prompts about other offices or cities mentioned in the PDF. Type *exit* when done.
-
-<p align="center">
-**[END OF LAB]**
-</p>
-</br></br>
-
-
 
 <p align="center">
 **THANKS!**
