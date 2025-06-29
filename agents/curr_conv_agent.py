@@ -8,13 +8,11 @@ from smolagents import CodeAgent, LiteLLMModel, tool
 # MEMORY PERSISTENCE (with history)
 # -----------------------------------------------------------------------------
 
-
 # -----------------------------------------------------------------------------
 # SMOLAGENTS TOOLS
 # -----------------------------------------------------------------------------
 
 # tool to get rates from a URL
-
 
 
 # tool to do basic calculations
@@ -48,8 +46,7 @@ def parse_and_fill(query: str):
     """
     q = query.strip()
     amt = frm = to = None
-
-    
+ 
 
     if not (amt and frm and to):
         raise ValueError(
@@ -82,7 +79,7 @@ if __name__ == "__main__":
 
         # Handle special commands - exit and history
 
-        
+
         # Normal convert request
         
         try:
@@ -93,7 +90,6 @@ if __name__ == "__main__":
          
 
             # Store and persist this interaction
-
 
             # Friendly output
             print(f"{amt} {frm} is approximately {float(result):.2f} {to}.\n")
