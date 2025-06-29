@@ -31,6 +31,7 @@ memory = load_memory()
 # SMOLAGENTS TOOLS
 # -----------------------------------------------------------------------------
 
+# tool to get rates from a URL
 @tool
 def fetch_live_rate(from_currency: str, to_currency: str) -> float:
     """
@@ -65,6 +66,9 @@ def fetch_live_rate(from_currency: str, to_currency: str) -> float:
         except Exception:
             continue
     raise RuntimeError(f"Failed to fetch rate from {from_currency} to {to_currency}")
+
+
+# tool to do basic calculations
 
 @tool
 def calculate(expression: str) -> float:
@@ -172,7 +176,8 @@ if __name__ == "__main__":
         user_input = input("Enter conversion query: ").strip()
         low = user_input.lower()
 
-        # Handle special commands
+        # Handle special commands - exit and history
+
         if low in ("exit", "quit"):
             print("Goodbye!")
             break
@@ -187,6 +192,7 @@ if __name__ == "__main__":
             continue
 
         # Normal convert request
+        
         try:
             amt, frm, to = parse_and_fill(user_input)
             prompt = f"Convert {amt} {frm} to {to}"
