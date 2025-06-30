@@ -111,7 +111,8 @@ python mcp_agent.py
 
 **Purpose: In this lab, we’ll see how agents can drive solutions via creating code and implement simple memory techniques using the smolagents framework.**
 
-1. 1. For this lab, we have a simple application that does currency conversion using prompts of the form "Convert 100 USD to EUR", where *USD* = US dollars and *EUR* = euros.  It will also remember previous values and invocations.
+1. For this lab, we have a simple application that does currency conversion using prompts of the form "Convert 100 USD to EUR", where *USD* = US dollars and *EUR* = euros.  It will also remember previous values and invocations.
+
 
 2. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below:
 
