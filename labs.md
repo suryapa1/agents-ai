@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 3.4 - 06/30/25
+## Revision 3.5 - 06/30/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -223,7 +223,7 @@ code -d ../extra/rag_agent.txt rag_agent.py
 python rag_agent.py
 ```
 
-5. At this point, you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
+5. You'll see the agent loading up the embedding pieces it needs to store the document in the vector database. After that you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
 
 ```
 Tell me about HQ
