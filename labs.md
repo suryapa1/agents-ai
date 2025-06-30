@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 3.0 - 06/29/25
+## Revision 3.1 - 06/29/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -71,7 +71,7 @@ code -d ../extra/lab2-server.txt mcp_server.py
 3. Now that we've built out the server code, run it using the command below. You should see some startup messages similar to the ones in the screenshot.
 
 ```
-python mpc_server.py
+python mcp_server.py
 ```
 </br></br>
 ![MCP server start](./images/aa44.png?raw=true "MCP server start") 
