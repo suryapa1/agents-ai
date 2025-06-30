@@ -1,7 +1,8 @@
 # ── LangChain & Ollama integration ───────────────────────────────────────
 langchain==0.3.26
 langchain-community==0.3.26
-langchain-ollama==0.3.3        # aligns with langchain-core 0.3.x  [oai_citation:0‡pypi.org](https://pypi.org/project/langchain-ollama/?utm_source=chatgpt.com)
+langchain-ollama==0.3.3        
+langchain_openai==0.3.0
 
 # ── Agent frameworks ────────────────────────────────────────────────────
 langgraph==0.4.9
