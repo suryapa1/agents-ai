@@ -83,12 +83,12 @@ python mcp_server.py
 5. In the second terminal, run a diff command so we can build out the new agent.
 
 ```
-code -d ../extra/lab2-code.txt mpc_agent.py
+code -d ../extra/lab2-code.txt mcp_agent.py
 ```
 
 6. Review and merge the changes as before. What we're highlighting in this step are the *System Prompt* that drives the LLM used by the agent, the connection with the MCP client at the /mcp/ endpoint (line 55), and the mpc calls to the tools on the server. When finished, close the tab to save the changes as before.
 
-![Agent using MCP client code](./images/aa48.png?raw=true "Agent using MCP client code") 
+![Agent using MCP client code](./images/aa75.png?raw=true "Agent using MCP client code") 
    
 7. After you've made and saved the changes, you can run the client in the terminal with the command below.
 
