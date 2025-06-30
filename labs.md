@@ -1,6 +1,6 @@
 # Understanding AI Agents
 ## Session labs 
-## Revision 3.2 - 06/30/25
+## Revision 3.4 - 06/30/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -150,7 +150,7 @@ Convert 100 USD to EUR
 
 ![Running agent](./images/aa69.png?raw=true "Running agent")   
 
-7. Now you can try some partial inputs with missing values to demonstrate the agent remembering arguments that were passed to it before. Here are some to try. Output is shown in the screenshot. (You may see some intermediate steps.)
+7. Now you can try some partial inputs with missing values to demonstrate the agent remembering arguments that were passed to it before. Here are some to try. Output is shown in the screenshot. (You may see some intermediate steps. You're looking for the one with "Final answer" in it.)
 
 ```
 Convert 200
