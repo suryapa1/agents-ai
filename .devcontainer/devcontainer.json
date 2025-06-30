@@ -23,16 +23,18 @@
                 "github.copilot.editor.enable": false, // Disables Copilot globally
                 "github.copilot.editor.enableAutoCompletions": false, // Disables inline suggestions
                 "github.copilot.chat.enabled": false, // Disables Copilot Chat
-                "chat.commandCenter.enabled": false // Hides the Copilot Chat button in the title bar
+                "chat.commandCenter.enabled": false, // Hides the Copilot Chat button in the title bar
+                "workbench.startupEditor": "readme", 
+                // Open Markdown files in preview mode by default
+                "workbench.editorAssociations": {
+                    "*.md": "vscode.markdown.preview.editor"
+                }
             },
-            "workbench.editorAssociations": {
-              "*.md": "vscode.markdown.preview.editor"
-            }
-        },
-        "extensions": [
-          "mathematic.vscode-pdf",
-          "vstirbu.vscode-mermaid-preview"
-         ]
+            "extensions": [
+               "mathematic.vscode-pdf",
+               "vstirbu.vscode-mermaid-preview"
+            ]
+        }
     },
     "postCreateCommand": "bash -i scripts/pysetup.sh py_env && bash -i scripts/startOllama.sh",
     "postStartCommand" : "nohup bash -c 'ollama serve &'"
