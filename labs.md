@@ -93,12 +93,12 @@ code -d ../extra/lab2-code.txt mcp_agent.py
 7. After you've made and saved the changes, you can run the client in the terminal with the command below.
 
 ```
-python mpc_agent.py
+python mcp_agent.py
 ```
 
 8. The agent should start up, and, as in lab 1, prompt you for a location. You'll be able to see similar TAO output. And you'll also be able to see the server INFO messages in the other terminal as the MCP connections and events happen.
 
-![Agent using MCP client running](./images/aa47.png?raw=true "Agent using MCP client running") 
+![Agent using MCP client running](./images/aa76.png?raw=true "Agent using MCP client running") 
 
 9. When you're done, you can use 'exit' to stop the client and CTRL-C to stop the server. 
 
