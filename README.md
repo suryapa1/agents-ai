@@ -1,12 +1,13 @@
-# Understanding AI Agents
+# Implementing AI Agents in Python
+## Using LangChain, LlamaIndex, Smolagents and pairing with RAG
 
-Repository for AI Agents hands-on workshop
+Repository for Implementing AI Agents in Python hands-on workshop
 
 These instructions will guide you through configuring a GitHub Codespaces environment that you can use to run the course labs. 
 
 **1. Click on the button below to start a new codespace from this repository.**
 
-Click here ➡️  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/skillrepos/ai-agents?quickstart=1)
+Click here ➡️  [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/skillrepos/ai-aip?quickstart=1)
 
 **2. Then click on the option to create a new codespace.**
 
