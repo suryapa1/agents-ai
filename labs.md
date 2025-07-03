@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using LangChain, LlamaIndex, Smolagents and pairing with RAG
 ## Session labs 
-## Revision 1.1 - 07/03/25
+## Revision 1.2 - 07/03/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -429,16 +429,18 @@ python agent5.py
 **What the agent example does**
 - Accepts a user request to generate Python code (e.g., “Plot a sine wave”).
 - Uses a **code writer agent** to generate the initial response.
-- Passes the code to a **critic agent** that assesses whether the code meets the original request.
+- Simulates execution of the generated code in a **sandboxed subprocess**, capturing any runtime output or errors.
+- Passes the code (with runtime feedback) to a **critic agent** that assesses whether the code meets the original request.
 - If the critic returns a `FAIL`, the code is passed to a **fixer agent** to revise it.
+- Simulates execution of the **fixed code** as well and reports runtime behavior.
 - Outputs either the original or revised code with a self-improvement cycle.
 
 **What it demonstrates about the framework**
 - Demonstrates **AutoGen’s modular agent design**, with roles like code writer, critic, and fixer.
-- Uses **structured messaging** and system prompts to control behavior per agent.
-- Shows how to build **reflection patterns**: generate → evaluate → revise.
-- Runs entirely against a local **LLaMA3 model via Ollama** using the appropriate `llm_config`.
-- Emphasizes agent orchestration without requiring a GroupChat — stepwise, manual control.
+- Uses **structured messaging** and system prompts to guide agent roles and ensure predictable output.
+- Shows how to build **reflection patterns** with execution-aware feedback:  
+  **generate → simulate → evaluate → revise → simulate**.
+- Enhances LLM reliability by integrating **actual runtime behavior** into the critique loop.
 
 ---
 
@@ -447,10 +449,10 @@ python agent5.py
 
 1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
 ```
-code -d ../extra/reflect-agent.txt reflect-agent.py
+code -d ../extra/reflect_agent.txt reflect_agent.py
 ```
 
-![Diffs](./images/aa23.png?raw=true "Diffs") 
+![Diffs](./images/aip6.png?raw=true "Diffs") 
 
 9. This time when the code runs, you should see the different agents being used in the processing.
 
@@ -495,7 +497,7 @@ code -d ../extra/reflect-agent.txt reflect-agent.py
 code -d ../extra/lab7-code.txt agent7.py
 ```
 
-![Diffs](./images/aa23.png?raw=true "Diffs") 
+![Diffs](./images/aip5.png?raw=true "Diffs") 
 
 9. This time when the code runs, you should see the different agents being used in the processing.
 
