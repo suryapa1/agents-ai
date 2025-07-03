@@ -1,6 +1,7 @@
-# Understanding AI Agents
+# Implementing AI Agents in Python
+## Using LangChain, LlamaIndex, Smolagents and pairing with RAG
 ## Session labs 
-## Revision 3.5 - 06/30/25
+## Revision 1.0 - 07/03/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -9,6 +10,22 @@
 **Lab 1 - Creating a simple agent**
 
 **Purpose: In this lab, we’ll learn about the basics of agents and see how tools are called. We'll also see how Chain of Thought prompting works with LLMs and how we can have ReAct agents reason and act.**
+
+---
+
+**What the agent example does**
+- Uses a local Ollama-served LLM (llama3.2) to interpret natural language queries about weather.
+- Extracts coordinates from the input, queries Open-Meteo for weather data.
+- Converts temperatures and provides a summary forecast using a TAO loop.
+
+**What it demonstrates about the framework**
+- Shows how to integrate **LangChain + Ollama** to drive LLM reasoning.
+- Demonstrates **Chain of Thought** reasoning with `Thought → Action → Observation` steps.
+- Introduces simple function/tool calling with a deterministic LLM interface.
+
+--- 
+
+### Steps
 
 1. In our repository, we have a set of Python programs that we'll be building out to work with concepts in the labs. These are mostly in the *agents* subdirectory. Go to the *TERMINAL* tab in the bottom part of your codespace and change into that directory.
 ```
@@ -57,6 +74,22 @@ python agent1.py
 **Lab 2 - Exploring MCP**
 
 **Purpose: In this lab, we’ll see how MCP can be used to standardize an agent's interaction with tools.**
+
+---
+
+**What the agent example does**
+- Implements an **MCP server** using `FastMCP` that exposes weather-related tools.
+- Connects an **MCP client agent** that uses an LLM to decide which MCP tools to invoke.
+- Handles retries and demonstrates robustness when tool calls fail.
+
+**What it demonstrates about the framework**
+- Shows how **FastMCP** standardizes tool interfaces via JSON-RPC with minimal boilerplate.
+- Provides clean separation between **tool hosting (server)** and **LLM reasoning (client)**.
+- Highlights protocol-first thinking and error-handling in agent execution.
+
+--- 
+
+### Steps
 
 1. Still in the *agents* directory, we have partial implementations of an MCP server and an agent that uses a MCP client to connect to tools on the server. So that you can get acquainted with the main parts of each, we'll build them out as we did the agent in the first lab - by viewing differences and merging. Let's start with the server. Run the command below to see the differences.
 
@@ -110,6 +143,22 @@ python mcp_agent.py
 **Lab 3 - Leveraging Coding Agents and Memory**
 
 **Purpose: In this lab, we’ll see how agents can drive solutions via creating code and implement simple memory techniques using the smolagents framework.**
+
+---
+
+**What the agent example does**
+- Uses SmolAgents to convert currencies and remember past conversions.
+- Accepts incomplete input (e.g., “convert 200”) and fills in missing parts from memory.
+- Stores memory in a local JSON file to persist state across sessions.
+
+**What it demonstrates about the framework**
+- Introduces the **SmolAgents CodeAgent**, a declarative and lightweight ReAct agent.
+- Demonstrates **@tool decorators**, deterministic execution, and **tool chaining**.
+- Highlights pluggable **memory support**, custom tools, and precise control over the agent loop.
+
+---
+
+### Steps
 
 1. For this lab, we have a simple application that does currency conversion using prompts of the form "Convert 100 USD to EUR", where *USD* = US dollars and *EUR* = euros.  It will also remember previous values and invocations.
 
@@ -190,6 +239,22 @@ convert 300
 
 **Purpose: In this lab, we’ll explore how agents can leverage external data stores via RAG**
 
+---
+
+**What the agent example does**
+- Loads and indexes a PDF of company office locations into a vector database.
+- Accepts a user query and performs a RAG flow to return facts about the destination.
+- Calculates distances between locations and recalls a previously stored starting point.
+
+**What it demonstrates about the framework**
+- Integrates **LlamaIndex + ChromaDB** for Retrieval-Augmented Generation.
+- Uses **LangChain agents** to orchestrate tool use and LLM querying.
+- Shows a real-world use of RAG: mapping user input to structured, embedded knowledge.
+
+---
+
+### Steps
+
 1. For this lab, we have an application that does the following:
 
 - Reads, processes, and stores information about company offices from a PDF file
@@ -246,6 +311,22 @@ Tell me about the Southern office
 **Lab 5 - Working with multiple agents**
 
 **Purpose: In this lab, we’ll see how to add an agent to a workflow using CrewAI.**
+
+---
+
+**What the agent example does**
+- Implements a **CrewAI** workflow with multiple agents: travel, customer service, and booking.
+- Coordinates task delegation between specialized agents.
+- Simulates a flight booking process from information extraction to confirmation.
+
+**What it demonstrates about the framework**
+- Highlights **CrewAI’s structured multi-agent planning**, where each agent owns a role.
+- Emphasizes **modularity**: clear division of responsibilities, reusable logic per agent.
+- Demonstrates coordination, task assignment, and coherent multi-agent collaboration.
+
+---
+
+### Steps
 
 1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
 ```
@@ -338,7 +419,47 @@ python agent5.py
 **[END OF LAB]**
 </p>
 </br></br>
- 
+
+**Lab 6 - Building Agents with the Reflective Pattern**
+
+**Purpose: In this lab, we’ll see how to create an agent that uses the reflective pattern using the AutoGen framework.** 
+
+---
+
+**What the agent example does**
+- Accepts a user request to generate Python code (e.g., “Plot a sine wave”).
+- Uses a **code writer agent** to generate the initial response.
+- Passes the code to a **critic agent** that assesses whether the code meets the original request.
+- If the critic returns a `FAIL`, the code is passed to a **fixer agent** to revise it.
+- Outputs either the original or revised code with a self-improvement cycle.
+
+**What it demonstrates about the framework**
+- Demonstrates **AutoGen’s modular agent design**, with roles like code writer, critic, and fixer.
+- Uses **structured messaging** and system prompts to control behavior per agent.
+- Shows how to build **reflection patterns**: generate → evaluate → revise.
+- Runs entirely against a local **LLaMA3 model via Ollama** using the appropriate `llm_config`.
+- Emphasizes agent orchestration without requiring a GroupChat — stepwise, manual control.
+
+---
+
+### Steps
+
+
+1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
+```
+code -d ../extra/reflect-agent.txt reflect-agent.py
+```
+
+![Diffs](./images/aa23.png?raw=true "Diffs") 
+
+9. This time when the code runs, you should see the different agents being used in the processing.
+
+![Run with new agents](./images/aa30.png?raw=true "Run with new agents")
+
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
 
 <p align="center">
 **THANKS!**
