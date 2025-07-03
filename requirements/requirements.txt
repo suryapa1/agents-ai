@@ -9,6 +9,7 @@ langgraph==0.4.9
 crewai==0.126.0
 smolagents==1.19.0
 autogen==0.9.4
+ag2==0.9.4
 
 # ── Model Context Protocol (MCP) server/client ──────────────────────────
 fastmcp==2.9.0
