@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using LangChain, LlamaIndex, Smolagents and pairing with RAG
 ## Session labs 
-## Revision 1.0 - 07/03/25
+## Revision 1.1 - 07/03/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -448,6 +448,51 @@ python agent5.py
 1. As we've done before, we'll build out the agent code with the diff/merge facility. Run the command below.
 ```
 code -d ../extra/reflect-agent.txt reflect-agent.py
+```
+
+![Diffs](./images/aa23.png?raw=true "Diffs") 
+
+9. This time when the code runs, you should see the different agents being used in the processing.
+
+![Run with new agents](./images/aa30.png?raw=true "Run with new agents")
+
+<p align="center">
+**[END OF LAB]**
+</p>
+</br></br>
+
+**Lab 7 - Planning with Canonical Queries and Structured Data**
+
+**Purpose: In this lab, we’ll explore how agents can reliably interact with structured data by delegating planning to an LLM and execution to deterministic tools. We’ll use canonical queries to create a clear contract between the agent’s planner and its tools, ensuring consistent results from natural language inputs. This lab also demonstrates the ReAct loop and memory features again.** 
+
+---
+
+**What the agent example does**
+- Accepts natural language questions like “What’s the average revenue?”
+- Uses the **LLM as a planner** to decide which tool to call (`load_data` or `analyze_offices`)
+- LLM maps the user’s request to a **canonical query string** (e.g., `"average_revenue"`)
+- The canonical query is passed to a deterministic tool that performs **real data analysis** using `pandas`
+- If needed, the LLM first calls `load_data()` and then **replans** the next step with updated context
+- The agent returns grounded, reliable answers from a local `offices.csv` file
+
+**What it demonstrates about the framework**
+- Implements a **ReAct-style loop**: Thought → Action → Observation → Re-plan
+- Uses the LLM for **semantic translation**, not computation
+- Demonstrates the use of **canonical queries** to simplify and stabilize tool interfaces
+- Enables **structured tool invocation** for repeatability and testing
+- Runs entirely using a local **Llama3.2 model via Ollama**, coordinated with `litellm`
+- Builds the foundation for **memory-aware, multi-turn agents** with clean separation of concerns:
+  - LLM handles reasoning
+  - Tools handle code and data
+
+---
+
+### Steps
+
+
+1. As before, we'll build out the agent code with the diff/merge facility. Run the command below.
+```
+code -d ../extra/lab7-code.txt agent7.py
 ```
 
 ![Diffs](./images/aa23.png?raw=true "Diffs") 
