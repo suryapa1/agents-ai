@@ -533,17 +533,54 @@ python ../extra/reflect_agent_verbose.py
 
 ### Steps
 
+1. For this lab, we have an application that reads in a data file in CSV format as our data source. The CSV file we're using employee counts, revenues, and year opened corresponding to the list of offices we used for the RAG PDF in lab 4. You can see the CSV content in the repo at  [**data/offices.csv**](./data/offices.csv) 
 
-1. As before, we'll build out the agent code with the diff/merge facility. Run the command below.
+![Data csv](./images/aip12.png?raw=true "Data csv") 
+
+2. As before, we'll build out the agent code with the diff/merge facility. Run the command below.
 ```
 code -d ../extra/lab7-code.txt agent7.py
 ```
 
 ![Diffs](./images/aip5.png?raw=true "Diffs") 
 
-9. This time when the code runs, you should see the different agents being used in the processing.
+3. The changes you're merging in this time include:
 
-![Run with new agents](./images/aa30.png?raw=true "Run with new agents")
+- Loading data from the csv file
+- Tool to analyze office data using canonical query strings
+- Section of system prompt that describes available tools and TAO process
+- Call to model
+- Action to choose tool
+
+4. Also note that we're not using a formal framework this time. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below. You'll see a prompt like "Office Data Agent is ready - type a question or 'exit' to quit.
+
+```
+python agent7.py
+```
+
+![agent running](./images/aip13.png?raw=true "agent running") 
+
+5. At the agent's prompt, you can enter a query like the one below. 
+
+```
+What's the average revenue across all offices?
+```
+
+6. After you hit *Enter*, you should see the agent showing its thoughts and actions. It should explain which tools it chose and why. You can look back in the code and see if you can follow the flow in the code.
+
+![agent workflow](./images/aip14.png?raw=true "agent workflow")    
+
+7. You can now ask other questions of the agent if you want related to the data. Here's some suggestions:
+
+```
+"Which office has the most employees?"
+“List offices opened after 2013.”
+“Which city generates the highest revenue per employee?”
+“How many offices are located in California?”
+“What is the total number of employees?”
+```
+
+8. Compare the questions and responses with the code used to answer them and see if you can trace the flow in the code from the query to the response.
 
 <p align="center">
 **[END OF LAB]**
