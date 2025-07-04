@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
-## Using LangChain, LlamaIndex, Smolagents and pairing with RAG
+## Using frameworks, MCP, and RAG for agentic AI
 ## Session labs 
-## Revision 1.3 - 07/03/25
+## Revision 1.4 - 07/04/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
