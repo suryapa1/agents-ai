@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using LangChain, LlamaIndex, Smolagents and pairing with RAG
 ## Session labs 
-## Revision 1.2 - 07/03/25
+## Revision 1.3 - 07/03/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -242,21 +242,6 @@ convert 300
 ---
 
 **What the agent example does**
-- Loads and indexes a PDF of company office locations into a vector database.
-- Accepts a user query and performs a RAG flow to return facts about the destination.
-- Calculates distances between locations and recalls a previously stored starting point.
-
-**What it demonstrates about the framework**
-- Integrates **LlamaIndex + ChromaDB** for Retrieval-Augmented Generation.
-- Uses **LangChain agents** to orchestrate tool use and LLM querying.
-- Shows a real-world use of RAG: mapping user input to structured, embedded knowledge.
-
----
-
-### Steps
-
-1. For this lab, we have an application that does the following:
-
 - Reads, processes, and stores information about company offices from a PDF file
 - Lets you input a starting location
 - Lets you prompt about a destination location such as an office name
@@ -267,12 +252,21 @@ convert 300
 - Stores information about starting location in an external file
 - Repeats until user enters *exit*
 
-2. The PDF file we're using to illustrate RAG here is a fictional list of offices and related info for a company. You can see it in the repo at  [**data/offices.pdf**](./data/offices.pdf) 
+**What it demonstrates about the framework**
+- Integrates **LlamaIndex + ChromaDB** for Retrieval-Augmented Generation.
+- Uses **LangChain agents** to orchestrate tool use and LLM querying.
+- Shows a real-world use of RAG: mapping user input to structured, embedded knowledge.
+
+---
+
+### Steps
+
+1. For this lab, we have an application that reads in a data file in PDF format as our RAG source. The PDF file we're using to illustrate RAG here is a fictional list of offices and related info for a company. You can see it in the repo at  [**data/offices.pdf**](./data/offices.pdf) 
 
 ![Data pdf](./images/aa66.png?raw=true "Data pdf") 
 
 
-3. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below. The code differences mainly hightlight the changes for RAG use in the agent, including working with vector database and snippets returned from searching it.
+2. As before, we'll use the "view differences and merge" technique to learn about the code we'll be working with. The command to run this time is below. The code differences mainly hightlight the changes for RAG use in the agent, including working with vector database and snippets returned from searching it.
    
 ```
 code -d ../extra/rag_agent.txt rag_agent.py
@@ -282,26 +276,26 @@ code -d ../extra/rag_agent.txt rag_agent.py
 ![Code for rag agent](./images/aa65.png?raw=true "Code for rag agent") 
 
 
-4. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
+3. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
 
 ```
 python rag_agent.py
 ```
 
-5. You'll see the agent loading up the embedding pieces it needs to store the document in the vector database. After that you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
+4. You'll see the agent loading up the embedding pieces it needs to store the document in the vector database. After that you can choose to override the default starting location, or leave it on the default. You'll see a *User:* prompt when it is ready for input from you. The agent is geared around you entering a prompt about an office. Try a prompt like one of the ones below about office "names" that are only in the PDF.
 
 ```
 Tell me about HQ
 Tell me about the Southern office
 ```
 
-6. What you should see after that are some messages that show internal processing, such as the retrieved items from the RAG datastore.  Then the agent will run through the necessary steps like geocoding locations, calculating distance, using the LLM to get interesting facts about the city etc. At the end it will print out facts about the office location, and the city the office is in, as well as the distance to the office.
+5. What you should see after that are some messages that show internal processing, such as the retrieved items from the RAG datastore.  Then the agent will run through the necessary steps like geocoding locations, calculating distance, using the LLM to get interesting facts about the city etc. At the end it will print out facts about the office location, and the city the office is in, as well as the distance to the office.
  
 ![Running the RAG agent](./images/aa67.png?raw=true "Running the RAG agent") 
 
-7. The stored information about startup location is in a file named *user_starting_location.json* in the same directory if you want to view that.
+6. The stored information about startup location is in a file named *user_starting_location.json* in the same directory if you want to view that.
 
-8. After the initial run, you can try prompts about other offices or cities mentioned in the PDF. Type *exit* when done.
+7. After the initial run, you can try prompts about other offices or cities mentioned in the PDF. Type *exit* when done.
 
 <p align="center">
 **[END OF LAB]**
@@ -454,9 +448,57 @@ code -d ../extra/reflect_agent.txt reflect_agent.py
 
 ![Diffs](./images/aip6.png?raw=true "Diffs") 
 
-9. This time when the code runs, you should see the different agents being used in the processing.
+2. This time you'll be merging in the following sections:
 
-![Run with new agents](./images/aa30.png?raw=true "Run with new agents")
+- agent to write code
+- agent to review code
+- agent to fix code
+- section to exec the code (note this only works if no additional imports are required)
+- workflow sections to drive the agents
+
+3. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below:
+
+```
+python reflect_agent.py
+```
+
+4. After the agent starts, you'll be at a prompt that says "Request >". This is waiting for you to input a programming request. Let's start with something simple like the prompt below. Just type this in and hit Enter.
+
+```
+determine if a number is prime or not
+```
+
+![Simple task](./images/aip6.png?raw=true "Simple task")
+
+5. After this, you should see a "Generating Code..." message indicating the coding agent is generating code. Then you'll see the suggested code.
+
+![Suggested code](./images/aip7.png?raw=true "Suggested code")
+
+6. Next, you'll see where the agent tried to run the code and provides "Runtime Feedback" indicating whether or not it executed successfully. That's followed by the "Critique" and the PASS/FAIL verdict.
+
+![Code evaluation](./images/aip8.png?raw=true "Code evaluation")
+ 
+7. This one probably passed on the first round. The agent will be ready for another task. Let's see what it's like when there's an error. Try the following prompt:
+
+```
+Determine if a number is prime or not, but inject an error. Do not include a comment about the error.
+```
+
+8. After this runs, and the initial code is generated, you should see the "Critique" section noting this as a "FAIL". The agent will then attemp to automatically fix the code and suggest "Fixed Code". Then it will attempt to execute the fixed code it generated. If all goes well, you'll see a message after that indicating that the fixed code was "Executed successfully."
+
+![Fix run](./images/aip9.png?raw=true "Fix run")
+
+9. Let's try one more change. We have a version of the code that has some extra functionality built-in to stream output, print system_messages, show when an agent is running, etc. It's in the "extra" directory, under "reflect_agent_verbose.py". Go ahead and run that and try a prompt with it. You can try the same prompt as in step 7 if you want.
+
+```
+python ../extra/reflect_agent_verbose.py
+```
+
+![Verbose run](./images/aip10.png?raw=true "Verbose run")
+
+
+10. (Optional) After this you can try other queries with the original file or the verbose one if you want. Or you can try changing some of the system messages in the code and re-running it if you like to try a larger change.
+
 
 <p align="center">
 **[END OF LAB]**
