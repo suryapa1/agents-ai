@@ -446,7 +446,7 @@ python agent5.py
 code -d ../extra/reflect_agent.txt reflect_agent.py
 ```
 
-![Diffs](./images/aip6.png?raw=true "Diffs") 
+![Diffs](./images/aip11.png?raw=true "Diffs") 
 
 2. This time you'll be merging in the following sections:
 
