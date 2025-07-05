@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using frameworks, MCP, and RAG for agentic AI
 ## Session labs 
-## Revision 1.4 - 07/04/25
+## Revision 1.5 - 07/04/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -505,9 +505,9 @@ python ../extra/reflect_agent_verbose.py
 </p>
 </br></br>
 
-**Lab 7 - Planning with Canonical Queries and Structured Data**
+**Lab 7 - Useful Implementation Approaches**
 
-**Purpose: In this lab, we’ll explore how agents can reliably interact with structured data by delegating planning to an LLM and execution to deterministic tools. We’ll use canonical queries to create a clear contract between the agent’s planner and its tools, ensuring consistent results from natural language inputs. This lab also demonstrates the ReAct loop and memory features again.** 
+**Purpose: In this lab, we’ll explore some useful implementation approaches in creating agents including using canonical queries and processing structured data.** 
 
 ---
 
