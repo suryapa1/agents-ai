@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using frameworks, MCP, and RAG for agentic AI
 ## Session labs 
-## Revision 1.7 - 07/06/25
+## Revision 1.8 - 07/06/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -350,7 +350,15 @@ python agent5.py
 
 ![Execution](./images/aa31.png?raw=true "Execution") 
 
-5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
+5. Now, that we know how the code works and that it works, let's consider the overall approach. Since there are multiple functions going on here (getting info, finding flights, booking flights) it doesn't necessarily make sense to have just one agent doing all those things. Let's add two other agents - a *travel agent* to help with finding flights, and a customer_service_agent to help with user interactions. To start, open the code for editing.
+
+```
+code agent5.py
+```
+
+
+6. Now, replace the single *booking agent* definition with these definitions for the 3 agents (making sure to get the indenting correct):
+
 
 **Directions:** Copy the block of replacement text in gray below and paste over the single agent definition in the code. Reminder - you may need to use keyboard shortcuts to copy and paste. The screenshots are only to show you before and after - they are not what you copy.
 
@@ -387,7 +395,7 @@ customer_service_agent = Agent(
 
 ![Replaced text](./images/aa27.png?raw=true "Replaced text")
 
-6. Next, we'll change each *task definition* to reflect which agent should own it. The places to make the change are in the task definitions in the lines that start with "*agent=*". Just edit each one as needed per the mapping in the table below.
+7. Next, we'll change each *task definition* to reflect which agent should own it. The places to make the change are in the task definitions in the lines that start with "*agent=*". Just edit each one as needed per the mapping in the table below. The screenshot below the mappings shows what the changed code should look like.
 
 | **Task** | *Agent* | 
 | :--------- | :-------- | 
@@ -398,7 +406,7 @@ customer_service_agent = Agent(
          
 ![Replaced text](./images/aa28.png?raw=true "Replaced text")
 
-7. Finally, we need to add the new agents to our crew. Edit the "*agents=[*" line in the block under the comment "*# Create the crew*". In that line, add *customer_service_agent* and *travel_agent*. The full line is below. The screenshot shows the changes made.
+8. Finally, we need to add the new agents to our crew. Edit the "*agents=[*" line in the block under the comment "*# Create the crew*". In that line, add *customer_service_agent* and *travel_agent*. The full line is below. The screenshot shows the changes made.
 
 ```
 agents=[booking_agent, customer_service_agent, travel_agent],
@@ -406,13 +414,13 @@ agents=[booking_agent, customer_service_agent, travel_agent],
 
 ![Replaced text](./images/aa29.png?raw=true "Replaced text")
 
-8. Now you can save your changes and then run the program again.
+9. Now you can save your changes and then run the program again.
 
 ```
 python agent5.py
 ```
 
-9. This time when the code runs, you should see the different agents being used in the processing.
+10. This time when the code runs, you should see the different agents being used in the processing.
 
 ![Run with new agents](./images/aa30.png?raw=true "Run with new agents")
 
@@ -491,11 +499,11 @@ determine if a number is prime or not
 Determine if a number is prime or not, but inject an error. Do not include a comment about the error.
 ```
 
-8. After this runs, and the initial code is generated, you should see the "Critique" section noting this as a "FAIL". The agent will then attemp to automatically fix the code and suggest "Fixed Code". Then it will attempt to execute the fixed code it generated. If all goes well, you'll see a message after that indicating that the fixed code was "Executed successfully."
+8. After this runs, and the initial code is generated, you should see the "Critique" section noting this as a "FAIL". The agent will then attempt to automatically fix the code and suggest "Fixed Code". Then it will attempt to execute the fixed code it generated. If all goes well, you'll see a message after that indicating that the fixed code was "Executed successfully."
 
 ![Fix run](./images/aip9.png?raw=true "Fix run")
 
-9. Let's try one more change. We have a version of the code that has some extra functionality built-in to stream output, print system_messages, show when an agent is running, etc. It's in the "extra" directory, under "reflect_agent_verbose.py". Go ahead and run that and try a prompt with it. You can try the same prompt as in step 7 if you want.
+9. Let's try one more change. We have a version of the code that has some extra functionality built-in to stream output, print system_messages, show when an agent is running, etc. It's in the "extra" directory, under "reflect_agent_verbose.py". Go ahead and run that and try a prompt with it. You can try the same prompt as in step 7 if you want. (You can type "exit" to stop the running one.)
 
 ```
 python ../extra/reflect_agent_verbose.py
@@ -531,10 +539,7 @@ python ../extra/reflect_agent_verbose.py
 - Uses the LLM for **semantic translation**, not computation
 - Demonstrates the use of **canonical queries** to simplify and stabilize tool interfaces
 - Enables **structured tool invocation** for repeatability and testing
-- Runs entirely using a local **Llama3.2 model via Ollama**, coordinated with `litellm`
-- Builds the foundation for **memory-aware, multi-turn agents** with clean separation of concerns:
-  - LLM handles reasoning
-  - Tools handle code and data
+
 
 ---
 
@@ -559,6 +564,7 @@ code -d ../extra/lab7-code.txt agent7.py
 - Call to model
 - Action to choose tool
 
+<br></br>
 4. Also note that we're not using a formal framework this time. When you're done merging, close the tab as usual to save your changes. Now, in a terminal, run the agent with the command below. You'll see a prompt like "Office Data Agent is ready - type a question or 'exit' to quit.
 
 ```
@@ -597,3 +603,5 @@ What's the average revenue across all offices?
 <p align="center">
 **THANKS!**
 </p>
+
+
