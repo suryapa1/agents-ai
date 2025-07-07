@@ -30,5 +30,7 @@ pdfminer-six==20250506
 sentence-transformers==4.1.0
 uvloop==0.21.0
 watchfiles==1.1.0
+fix-busted-json==0.0.18
+
 
 
