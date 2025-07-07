@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using frameworks, MCP, and RAG for agentic AI
 ## Session labs 
-## Revision 1.6 - 07/06/25
+## Revision 1.7 - 07/06/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -38,14 +38,14 @@ cd agents
 code agent1.py
 ```
 
-3. As you can see, this outlines the steps the agent will go through without all the code. When you are done looking at it, close the file by clicking on the "X" in the tab at the top of the file.
+3. If you scroll through this file, you can see it outlines the steps the agent will go through without all the code. When you are done looking at it, close the file by clicking on the "X" in the tab at the top of the file.
 
 4. Now, let's fill in the code. To keep things simple and avoid formatting/typing frustration, we already have the code in another file that we can merge into this one. Run the command below in the terminal.
 ```
 code -d ../extra/lab1-code.txt agent1.py
 ```
 
-5. Once you have run the command, you'll have a side-by-side in your editor of the completed code and the agent1.py file.
+5. Once you have run the command, you'll have a side-by-side view in your editor of the completed code and the agent1.py file.
   You can merge each section of code into the agent1.py file by hovering over the middle bar and clicking on the arrows pointing right. Go through each section, look at the code, and then click to merge the changes in, one at a time.
 
 ![Side-by-side merge](./images/aa40.png?raw=true "Side-by-side merge") 
@@ -109,31 +109,41 @@ python mcp_server.py
 </br></br>
 ![MCP server start](./images/aa44.png?raw=true "MCP server start") 
 
-4. Now, let's turn our attention to the agent that will use the MCP server through an MCP client interface. First, since the terminal is tied up with the running server, we need to have a second terminal to use to work with the client. So that we can see the server responses, let's just open another terminal side-by-side with this one. To do that, right-click in the current terminal and select *Split Terminal* from the pop-up context menu.
+4. Since this terminal is now tied up with the running server, we need to have a second terminal to use to work with the client. So that we can see the server responses, let's just open another terminal side-by-side with this one. To do that, right-click in the current terminal and select *Split Terminal* from the pop-up context menu.
 
 ![Opening a second terminal](./images/aa45.png?raw=true "Opening a second terminal") 
 
-5. In the second terminal, run a diff command so we can build out the new agent.
+
+5. We also have a small tool that can call the MCP *discover* method to find the list of tools from our server. This is just for demo purposes. You can take a look at the code either by clicking on [**extra/discover_tools.py**](./extra/discover_tools.py) or by entering the first command below in the codespace's terminal. The actual code here is minimal. It connects to our server and invokes the list_tools method. Run it with the second command below and you should see the list of tools like in the screenshot.
+
+```
+code extra/discover_tools.py
+python extra/discover_tools.py
+```
+
+![Discovering tools](./images/aip15.png?raw=true "Discovering tools") 
+
+6. Now, let's turn our attention to the version of the agent that will use the MCP client to communicate with the server. In the second terminal, run a diff command so we can build out the new agent.
 
 ```
 code -d ../extra/lab2-code.txt mcp_agent.py
 ```
 
-6. Review and merge the changes as before. What we're highlighting in this step are the *System Prompt* that drives the LLM used by the agent, the connection with the MCP client at the /mcp/ endpoint (line 55), and the mpc calls to the tools on the server. When finished, close the tab to save the changes as before.
+7. Review and merge the changes as before. What we're highlighting in this step are the *System Prompt* that drives the LLM used by the agent, the connection with the MCP client at the /mcp/ endpoint (line 55), and the mpc calls to the tools on the server. When finished, close the tab to save the changes as before.
 
 ![Agent using MCP client code](./images/aa75.png?raw=true "Agent using MCP client code") 
    
-7. After you've made and saved the changes, you can run the client in the terminal with the command below.
+8. After you've made and saved the changes, you can run the client in the terminal with the command below.
 
 ```
 python mcp_agent.py
 ```
 
-8. The agent should start up, and, as in lab 1, prompt you for a location. You'll be able to see similar TAO output. And you'll also be able to see the server INFO messages in the other terminal as the MCP connections and events happen.
+9. The agent should start up, and, as in lab 1, prompt you for a location. You'll be able to see similar TAO output. And you'll also be able to see the server INFO messages in the other terminal as the MCP connections and events happen.
 
 ![Agent using MCP client running](./images/aa76.png?raw=true "Agent using MCP client running") 
 
-9. When you're done, you can use 'exit' to stop the client and CTRL-C to stop the server. 
+10. When you're done, you can use 'exit' to stop the client and CTRL-C to stop the server. 
 
 <p align="center">
 **[END OF LAB]**
@@ -142,7 +152,7 @@ python mcp_agent.py
 
 **Lab 3 - Leveraging Coding Agents and Memory**
 
-**Purpose: In this lab, we’ll see how agents can drive solutions via creating code and implement simple memory techniques using the smolagents framework.**
+**Purpose: In this lab, we’ll see how agents can drive solutions via creating code and implementing simple memory techniques - using the smolagents framework.**
 
 ---
 
@@ -177,9 +187,6 @@ code -d ../extra/curr_conv_agent.txt curr_conv_agent.py
 - **@tool decorator** turns your Python functions into callable “tools” for the agent.  
 - **LiteLLMModel** plugs in your local Ollama llama3.2 as the agent’s reasoning engine.  
 - **CodeAgent** runs a ReAct loop: think (LLM), act (call tool), observe, repeat.  
-- **Controlled toolset** (`add_base_tools=False`) limits the agent to only your defined tools.  
-- **Deterministic output** (`temperature=0.0`) ensures consistent tool selection and results.  
-- **Tool chaining** lets the agent fetch live rates, then compute conversions in sequence.  
 - **Memory feature** remembers current values and persists them (with history) to an external JSON file.  
 
 
