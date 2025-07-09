@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using frameworks, MCP, and RAG for agentic AI
 ## Session labs 
-## Revision 1.8 - 07/06/25
+## Revision 1.9 - 07/09/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -300,7 +300,7 @@ Tell me about the Southern office
  
 ![Running the RAG agent](./images/aa67.png?raw=true "Running the RAG agent") 
 
-6. The stored information about startup location is in a file named *user_starting_location.json* in the same directory if you want to view that.
+6. The stored information about startup location is in a file named *user_starting_location.json* in the same directory. If you changed the starting location, you can view the file. (If you didn't change the location, the file won't exist.)
 
 7. After the initial run, you can try prompts about other offices or cities mentioned in the PDF. Type *exit* when done.
 
