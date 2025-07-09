@@ -1,7 +1,7 @@
 # Implementing AI Agents in Python
 ## Using frameworks, MCP, and RAG for agentic AI
 ## Session labs 
-## Revision 1.9 - 07/09/25
+## Revision 1.10 - 07/09/25
 
 **Follow the startup instructions in the README.md file IF NOT ALREADY DONE!**
 
@@ -579,7 +579,7 @@ python agent7.py
 What's the average revenue across all offices?
 ```
 
-6. After you hit *Enter*, you should see the agent showing its thoughts and actions. It should explain which tools it chose and why. You can look back in the code and see if you can follow the flow in the code.
+6. After you hit *Enter*, you should see the agent pause for a while and then start showing its thoughts and actions. It should explain which tools it chose and why. You can look back in the code and see if you can follow the flow in the code.
 
 ![agent workflow](./images/aip14.png?raw=true "agent workflow")    
 
