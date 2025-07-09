@@ -589,8 +589,6 @@ What's the average revenue across all offices?
 "Which office has the most employees?"
 “List offices opened after 2013.”
 “Which city generates the highest revenue per employee?”
-“How many offices are located in California?”
-“What is the total number of employees?”
 ```
 
 8. Compare the questions and responses with the code used to answer them and see if you can trace the flow in the code from the query to the response.
